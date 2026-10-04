@@ -9,7 +9,7 @@ const columns = [
       { href: "/psychologists", label: "Каталог психологов" },
       { href: "/prices", label: "Цены и правила отмены" },
       { href: "/tests", label: "Психологические тесты" },
-      { href: "/certificates", label: "Подарочные сертификаты" },
+      { href: "/gift", label: "Подарочные сертификаты" },
     ],
   },
   {
@@ -23,10 +23,14 @@ const columns = [
   {
     title: "О платформе",
     links: [
-      { href: "/about", label: "О нас" },
-      { href: "/for-companies", label: "Корпоративным клиентам" },
-      { href: "/docs", label: "Документы" },
-      { href: "/emergency", label: "Экстренная помощь" },
+      { href: "/about", label: "О проекте" },
+      { href: "/how-it-works", label: "Как это работает" },
+      { href: "/faq", label: "Вопросы и ответы" },
+      { href: "/reviews", label: "Отзывы" },
+      { href: "/contacts", label: "Контакты" },
+      { href: "/business", label: "Корпоративным клиентам" },
+      { href: "/legal", label: "Документы" },
+      { href: "/help-now", label: "Экстренная помощь" },
     ],
   },
 ];

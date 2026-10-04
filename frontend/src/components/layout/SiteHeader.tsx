@@ -10,7 +10,7 @@ const links = [
   { href: "/prices", label: "Цены" },
   { href: "/articles", label: "Статьи" },
   { href: "/for-psychologists", label: "Психологам" },
-  { href: "/for-companies", label: "Компаниям" },
+  { href: "/business", label: "Компаниям" },
 ];
 
 export async function SiteHeader() {
@@ -27,7 +27,7 @@ export async function SiteHeader() {
           ))}
         </nav>
         <div className="ml-auto flex items-center gap-2">
-          <Link href="/emergency" className="hidden text-sm font-medium text-danger sm:inline">
+          <Link href="/help-now" className="hidden text-sm font-medium text-danger sm:inline">
             Экстренная помощь
           </Link>
           {user ? (
