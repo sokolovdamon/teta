@@ -22,7 +22,7 @@ class Payment extends Model
 
     protected function casts(): array
     {
-        return ['paid_at' => 'datetime', 'with_payer' => 'boolean'];
+        return ['paid_at' => 'datetime', 'with_payer' => 'boolean', 'metadata' => 'array'];
     }
 
     protected static function transitions(): array
@@ -56,6 +56,16 @@ class Payment extends Model
     public function refunds(): HasMany
     {
         return $this->hasMany(PaymentRefund::class);
+    }
+
+    public function receipts(): HasMany
+    {
+        return $this->hasMany(Receipt::class);
+    }
+
+    public function meta(string $key, mixed $default = null): mixed
+    {
+        return ($this->metadata ?? [])[$key] ?? $default;
     }
 
     public function refundable(): int

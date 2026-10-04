@@ -18,7 +18,7 @@ class SessionTimeRequest extends Model
 
     protected function casts(): array
     {
-        return ['preferred' => 'array'];
+        return ['preferred' => 'array', 'offered_slots' => 'array', 'answered_at' => 'datetime', 'closed_at' => 'datetime'];
     }
 
     public function client(): BelongsTo
