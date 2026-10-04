@@ -308,7 +308,8 @@ class ProfileService
                 $pending[$field] = $value;
             }
         }
-        ksort($pending);
+        $pending = $this->ordered($pending);
+        $before = $this->ordered($before);
         $changed = ! $this->same($pending, $before);
 
         if ($changed) {
@@ -359,6 +360,12 @@ class ProfileService
             $p->requests()->sync(ClientRequest::whereIn('id', $values['requests'])->pluck('id')->all());
         }
         $p->unsetRelation('approaches')->unsetRelation('specializations')->unsetRelation('requests');
+    }
+
+    /** Pending fields in the canonical order of MODERATED (jsonb does not keep key order). */
+    public function ordered(array $pending): array
+    {
+        return array_replace(array_intersect_key(array_flip(self::MODERATED), $pending), $pending);
     }
 
     private function normalizeAll(array $values): array

@@ -46,6 +46,7 @@ class ScheduleApiTest extends TestCase
 
         // Pair sessions need longer intervals.
         $p->forceFill(['works_individual' => false, 'works_pair' => true, 'price_pair' => 700000])->save();
+        Sanctum::actingAs($p->user->fresh());
         $put([['weekday' => 2, 'starts_at' => '10:00', 'ends_at' => '11:00']])->assertUnprocessable();
     }
 

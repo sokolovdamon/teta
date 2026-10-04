@@ -51,9 +51,9 @@ class ProfileModerationTest extends TestCase
             'headline' => 'Новый заголовок профиля',
             'approaches' => [['id' => $act->id, 'explanation' => 'Новое пояснение']],
         ])->assertOk()
-            ->assertJsonPath('result.pending', ['approaches', 'headline'])
+            ->assertJsonPath('result.pending', ['headline', 'approaches'])
             ->assertJsonPath('data.values.headline', 'Новый заголовок профиля')
-            ->assertJsonPath('data.pending.fields', ['approaches', 'headline']);
+            ->assertJsonPath('data.pending.fields', ['headline', 'approaches']);
 
         // The site keeps showing the published version (BR-PSY-05).
         $this->getJson("/api/v1/psychologists/{$p->slug}")->assertOk()

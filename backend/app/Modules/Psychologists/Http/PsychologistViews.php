@@ -32,7 +32,7 @@ class PsychologistViews
     {
         $p->load(['photo', 'video', 'approvedVideo', 'approaches', 'specializations', 'requests']);
         $values = $this->profile->effectiveValues($p);
-        $pending = (array) ($p->pending_changes ?? []);
+        $pending = $this->profile->ordered((array) ($p->pending_changes ?? []));
         $photoId = $values['photo_file_id'] ?? null;
 
         return [

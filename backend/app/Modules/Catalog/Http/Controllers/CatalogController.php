@@ -31,7 +31,7 @@ class CatalogController extends Controller
             'specializations' => ['sometimes', 'array', 'max:50'], 'specializations.*' => ['string', 'max:128'],
             'gender' => ['nullable', Rule::in(['female', 'male'])],
             'age_min' => ['nullable', 'integer', 'min:18', 'max:100'],
-            'age_max' => ['nullable', 'integer', 'min:18', 'max:100', 'gte:age_min'],
+            'age_max' => array_filter(['nullable', 'integer', 'min:18', 'max:100', $request->filled('age_min') ? 'gte:age_min' : null]),
             'price_category' => ['nullable'], 'price_category.*' => ['string', 'max:64'],
             'format' => ['nullable', Rule::in(['individual', 'pair'])],
             'available_within_days' => ['nullable', 'integer', 'min:1', 'max:'.max(1, Settings::int('P-BOOK-HORIZON'))],
