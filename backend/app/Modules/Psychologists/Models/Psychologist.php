@@ -10,6 +10,7 @@ use App\Modules\Dictionaries\Models\Specialization;
 use App\Modules\Files\Models\StoredFile;
 use App\Modules\Schedule\Models\ScheduleException;
 use App\Modules\Schedule\Models\ScheduleInterval;
+use App\Support\Database\UtcDates;
 use App\Support\StateMachine\HasStateMachine;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -30,7 +31,7 @@ use Illuminate\Support\Str;
  */
 class Psychologist extends Model
 {
-    use HasStateMachine, HasUuids, SoftDeletes;
+    use HasStateMachine, HasUuids, SoftDeletes, UtcDates;
 
     protected static string $eventPrefix = 'psy';
 

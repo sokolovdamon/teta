@@ -3,6 +3,7 @@
 namespace App\Modules\Audit\Models;
 
 use App\Models\User;
+use App\Support\Database\UtcDates;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -10,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class AuditLog extends Model
 {
-    use HasUuids;
+    use HasUuids, UtcDates;
 
     public const UPDATED_AT = null;
 

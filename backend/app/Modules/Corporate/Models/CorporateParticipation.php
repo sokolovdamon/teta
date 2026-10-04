@@ -3,6 +3,7 @@
 namespace App\Modules\Corporate\Models;
 
 use App\Models\User;
+use App\Support\Database\UtcDates;
 use App\Support\StateMachine\HasStateMachine;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
@@ -14,7 +15,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class CorporateParticipation extends Model
 {
-    use HasStateMachine, HasUuids;
+    use HasStateMachine, HasUuids, UtcDates;
 
     protected static string $eventPrefix = 'b2b.participation';
 

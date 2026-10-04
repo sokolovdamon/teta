@@ -2,6 +2,7 @@
 
 namespace App\Modules\Consent\Models;
 
+use App\Support\Database\UtcDates;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -9,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class LegalDocument extends Model
 {
-    use HasUuids;
+    use HasUuids, UtcDates;
 
     public const PERSONAL_DATA = 'personal_data';
 

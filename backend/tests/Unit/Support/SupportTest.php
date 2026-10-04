@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Support;
 
+use App\Models\User;
 use App\Support\Calendar\WorkingDays;
 use App\Support\Money;
 use Carbon\CarbonImmutable;
@@ -25,5 +26,13 @@ class SupportTest extends TestCase
 
         // 14 working days from Monday 2026-10-05 is Friday 2026-10-23.
         $this->assertSame('2026-10-23', WorkingDays::add(CarbonImmutable::parse('2026-10-05'), 14)->toDateString());
+    }
+
+    public function test_dates_in_other_timezones_are_stored_and_queried_in_utc(): void
+    {
+        $user = User::factory()->create();
+        $user->forceFill(['last_login_at' => CarbonImmutable::parse('2026-10-06 11:00', 'Europe/Moscow')])->save();
+        $this->assertSame('2026-10-06 08:00:00', \DB::table('users')->where('id', $user->id)->value('last_login_at'));
+        $this->assertTrue(User::where('last_login_at', '=', CarbonImmutable::parse('2026-10-06 11:00', 'Europe/Moscow'))->exists());
     }
 }

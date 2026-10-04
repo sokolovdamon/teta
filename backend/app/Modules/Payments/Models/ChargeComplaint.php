@@ -4,6 +4,7 @@ namespace App\Modules\Payments\Models;
 
 use App\Models\User;
 use App\Modules\Booking\Models\TherapySession;
+use App\Support\Database\UtcDates;
 use App\Support\StateMachine\HasStateMachine;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
@@ -12,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 /** ST-05: complaint about a charge, decided within P-COMPLAINT-REVIEW working days (DEC-23). */
 class ChargeComplaint extends Model
 {
-    use HasStateMachine, HasUuids;
+    use HasStateMachine, HasUuids, UtcDates;
 
     protected static string $eventPrefix = 'pay.complaint';
 

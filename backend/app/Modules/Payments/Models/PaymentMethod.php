@@ -3,6 +3,7 @@
 namespace App\Modules\Payments\Models;
 
 use App\Models\User;
+use App\Support\Database\UtcDates;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -10,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 /** Card token from the payment gateway; card numbers are never stored (TZ v2, section 8). */
 class PaymentMethod extends Model
 {
-    use HasUuids;
+    use HasUuids, UtcDates;
 
     protected $guarded = ['id'];
 

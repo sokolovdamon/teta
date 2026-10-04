@@ -7,6 +7,7 @@ use App\Modules\Corporate\Models\CorporateParticipation;
 use App\Modules\Payments\Models\ChargeTask;
 use App\Modules\Promo\Models\PromoCode;
 use App\Modules\Psychologists\Models\Psychologist;
+use App\Support\Database\UtcDates;
 use App\Support\StateMachine\HasStateMachine;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -20,7 +21,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  */
 class TherapySession extends Model
 {
-    use HasStateMachine, HasUuids;
+    use HasStateMachine, HasUuids, UtcDates;
 
     public const BOOKED = 'booked';
 

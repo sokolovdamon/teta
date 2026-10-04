@@ -3,6 +3,7 @@
 namespace App\Modules\Payments\Models;
 
 use App\Modules\Booking\Models\TherapySession;
+use App\Support\Database\UtcDates;
 use App\Support\StateMachine\HasStateMachine;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
@@ -12,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 /** ST-02: the source of truth for an autocharge; queue jobs only trigger its processing. */
 class ChargeTask extends Model
 {
-    use HasStateMachine, HasUuids;
+    use HasStateMachine, HasUuids, UtcDates;
 
     protected static string $eventPrefix = 'pay.charge';
 

@@ -2,13 +2,14 @@
 
 namespace App\Modules\Consent\Models;
 
+use App\Support\Database\UtcDates;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class LegalDocumentVersion extends Model
 {
-    use HasUuids;
+    use HasUuids, UtcDates;
 
     protected $fillable = ['legal_document_id', 'version', 'body', 'published_at', 'created_by'];
 

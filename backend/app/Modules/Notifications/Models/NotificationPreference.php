@@ -2,10 +2,13 @@
 
 namespace App\Modules\Notifications\Models;
 
+use App\Support\Database\UtcDates;
 use Illuminate\Database\Eloquent\Model;
 
 class NotificationPreference extends Model
 {
+    use UtcDates;
+
     protected $primaryKey = 'user_id';
 
     public $incrementing = false;

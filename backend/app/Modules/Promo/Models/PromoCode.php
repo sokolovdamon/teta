@@ -2,6 +2,7 @@
 
 namespace App\Modules\Promo\Models;
 
+use App\Support\Database\UtcDates;
 use App\Support\StateMachine\HasStateMachine;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
@@ -13,7 +14,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class PromoCode extends Model
 {
-    use HasStateMachine, HasUuids;
+    use HasStateMachine, HasUuids, UtcDates;
 
     protected static string $eventPrefix = 'promo.code';
 

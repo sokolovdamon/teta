@@ -2,13 +2,14 @@
 
 namespace App\Modules\Payments\Models;
 
+use App\Support\Database\UtcDates;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 
 /** Webhooks are verified by signature and written here before processing. */
 class WebhookInbox extends Model
 {
-    use HasUuids;
+    use HasUuids, UtcDates;
 
     protected $table = 'webhook_inbox';
 

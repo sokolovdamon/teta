@@ -4,6 +4,7 @@ namespace App\Modules\Booking\Models;
 
 use App\Models\User;
 use App\Modules\Psychologists\Models\Psychologist;
+use App\Support\Database\UtcDates;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -11,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 /** "Нет подходящего времени" (DEC-28): structured request instead of messaging the psychologist. */
 class SessionTimeRequest extends Model
 {
-    use HasUuids;
+    use HasUuids, UtcDates;
 
     protected $guarded = ['id'];
 

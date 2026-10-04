@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Modules\Psychologists\Models\Psychologist;
 use App\Modules\Rbac\Models\Role;
+use App\Support\Database\UtcDates;
 use Database\Factories\UserFactory;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -26,7 +27,7 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable implements MustVerifyEmail
 {
     /** @use HasFactory<UserFactory> */
-    use HasApiTokens, HasFactory, HasUuids, Notifiable, SoftDeletes;
+    use HasApiTokens, HasFactory, HasUuids, Notifiable, SoftDeletes, UtcDates;
 
     public const STATUS_ACTIVE = 'active';
 

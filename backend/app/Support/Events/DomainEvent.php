@@ -2,12 +2,13 @@
 
 namespace App\Support\Events;
 
+use App\Support\Database\UtcDates;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 
 class DomainEvent extends Model
 {
-    use HasUuids;
+    use HasUuids, UtcDates;
 
     public $timestamps = false;
 

@@ -16,6 +16,7 @@
 
 - Модули — `app/Modules/<Module>/`: `Models/`, `Http/Controllers/`, `Services/`, `routes.php` (монтируется в `/api/v1`), `console.php` (команды и расписание), `notifications.php` (шаблоны писем), `<Module>ServiceProvider.php` (подключается автоматически). Общие механизмы — `app/Support/`.
 - Миграции — `database/migrations/`, UUID-ключи (`HasUuids`), время в UTC, деньги — целые копейки (`App\Support\Money`).
+- Каждая модель использует `HasUuids` и `App\Support\Database\UtcDates` (даты в любом поясе сохраняются в UTC; параметры запросов приводит к UTC `UtcPostgresConnection`).
 - Машины состояний: трейт `App\Support\StateMachine\HasStateMachine`; переход только через `transitionTo()` — он пишет историю `state_transitions` и доменное событие.
 - Доменные события: `App\Support\Events\Outbox::record()` в той же транзакции; подписчики — `Outbox::listen('book.session.held', Listener::class)` в сервис-провайдере модуля, реализуют `DomainEventListener` и идемпотентны.
 - Параметры правил `P-*`: `App\Support\Settings\Settings::get('P-CHARGE-OFFSET')`; значения по умолчанию — `config/platform.php`. Числа в коде не хардкодим.
@@ -24,7 +25,9 @@
 - Права: middleware `permission:admin.users.view` (каталог — `config/rbac.php`), `role:psychologist,supervisor`, `verified.email`. Жёсткие запреты (заметки психолога — только автор; дневник и история сессий — только психолог клиента) проверяются в коде, не через RBAC.
 - Полиморфные типы регистрируем в сервис-провайдере модуля: `Relation::morphMap([...])`.
 - Сиды: справочные данные модуля — `database/seeders/Reference/*Seeder.php`, демо — `database/seeders/Demo/*Seeder.php` (подключаются автоматически).
-- Платёжный сервис не выбран (Q-43, DEC-38): всё работает через контракт шлюза и тестовый эмулятор.
+- Общие сервисы: свободные слоты и удержание — `App\Modules\Schedule\Services\SlotService`; требование ежемесячной супервизии и статус активности (ST-09) — `App\Modules\Psychologists\Services\ActivityService` (`markMonthMet`, `payoutAllowed`); промокоды для записи — контракт `App\Modules\Promo\Contracts\PromoCodes`.
+- Платёжный сервис не выбран (Q-43, DEC-38): всё работает через контракт `App\Modules\Payments\Gateway\PaymentGateway` и тестовый эмулятор.
+- Тестовые хелперы: `Tests\Concerns\CreatesPsychologists` (`makePsychologist`, `makeSession`), в `Tests\TestCase` — `actingAsRole()`, `userWithRole()`.
 - Тесты: `php artisan test` на PostgreSQL (`phpunit.xml`, база `teta_test`; своя база — `DB_DATABASE=teta_test_x php artisan test`). Краткая сводка: `php artisan test 2>&1 | python3 ../scripts/test-summary.py`. Форматирование: `vendor/bin/pint`.
 
 ## Фронтенд (`frontend/`)

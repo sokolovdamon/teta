@@ -15,7 +15,9 @@ use App\Modules\Payouts\Models\Accrual;
 use App\Modules\Payouts\Models\Payout;
 use App\Modules\Promo\Models\PromoCode;
 use App\Modules\Psychologists\Models\Psychologist;
+use App\Support\Database\UtcPostgresConnection;
 use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Database\Connection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Http\Request;
@@ -27,6 +29,8 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->singleton(InstanceConfig::class);
+
+        Connection::resolverFor('pgsql', fn ($pdo, $database, $prefix, $config) => new UtcPostgresConnection($pdo, $database, $prefix, $config));
     }
 
     public function boot(): void

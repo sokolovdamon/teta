@@ -2,6 +2,7 @@
 
 namespace App\Modules\Instance\Models;
 
+use App\Support\Database\UtcDates;
 use App\Support\StateMachine\HasStateMachine;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
@@ -9,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 /** ST-20: registry record of a partner instance, kept in the main instance (ADM-21). */
 class PartnerInstance extends Model
 {
-    use HasStateMachine, HasUuids;
+    use HasStateMachine, HasUuids, UtcDates;
 
     protected static string $eventPrefix = 'instance.partner';
 

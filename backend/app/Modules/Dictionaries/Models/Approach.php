@@ -2,12 +2,13 @@
 
 namespace App\Modules\Dictionaries\Models;
 
+use App\Support\Database\UtcDates;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 
 class Approach extends Model
 {
-    use HasUuids;
+    use HasUuids, UtcDates;
 
     protected $table = 'approaches';
 

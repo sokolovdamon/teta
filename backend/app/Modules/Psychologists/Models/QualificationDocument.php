@@ -3,13 +3,14 @@
 namespace App\Modules\Psychologists\Models;
 
 use App\Modules\Files\Models\StoredFile;
+use App\Support\Database\UtcDates;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class QualificationDocument extends Model
 {
-    use HasUuids;
+    use HasUuids, UtcDates;
 
     protected $guarded = ['id'];
 

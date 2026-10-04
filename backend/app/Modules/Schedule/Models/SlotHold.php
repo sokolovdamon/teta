@@ -2,13 +2,14 @@
 
 namespace App\Modules\Schedule\Models;
 
+use App\Support\Database\UtcDates;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 
 /** P-SLOT-HOLD: slot held while the client completes registration and card binding. */
 class SlotHold extends Model
 {
-    use HasUuids;
+    use HasUuids, UtcDates;
 
     protected $guarded = ['id'];
 
