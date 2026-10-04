@@ -5,3 +5,4 @@
 /pgdata/
 /.env
 .claude/worktrees/
+dump.rdb
