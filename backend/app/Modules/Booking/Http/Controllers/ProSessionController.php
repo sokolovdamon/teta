@@ -9,6 +9,7 @@ use App\Modules\Booking\Services\BookingService;
 use App\Modules\Booking\Services\CancellationService;
 use App\Modules\Booking\Services\OutcomeService;
 use App\Modules\Psychologists\Models\Psychologist;
+use App\Modules\Schedule\Services\SlotService;
 use Carbon\CarbonImmutable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -90,6 +91,20 @@ class ProSessionController extends Controller
         $s = $this->booking->reschedule($session, $request->user(), CarbonImmutable::parse($data['starts_at']), 'psychologist', $data['reason'] ?? null);
 
         return response()->json(['data' => $this->presenter->forPsychologist($s->fresh(['psychologist', 'client']))]);
+    }
+
+    /** Own free slots (to offer time in reply to "Нет подходящего времени"). */
+    public function freeSlots(Request $request, SlotService $slots): JsonResponse
+    {
+        $p = $this->psychologist($request);
+        $format = $request->query('format') === 'pair' ? 'pair' : 'individual';
+        $from = CarbonImmutable::now();
+        $to = $from->addDays(min(28, max(1, (int) $request->integer('days', 14))));
+
+        return response()->json([
+            'data' => array_map(fn ($s) => $s->toIso8601String(), $slots->availableSlots($p, $format, $from, $to)),
+            'timezone' => $p->timezone ?: config('platform.timezone'),
+        ]);
     }
 
     private function psychologist(Request $request): Psychologist

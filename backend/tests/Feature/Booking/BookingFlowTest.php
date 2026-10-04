@@ -379,6 +379,7 @@ class BookingFlowTest extends TestCase
 
         $this->actAs(User::findOrFail($p->user_id));
         $id = $this->getJson('/api/v1/booking/pro/time-requests')->assertOk()->assertJsonPath('open', 1)->json('data.0.id');
+        $this->assertContains($this->msk('2026-10-07 10:00')->utc()->toIso8601String(), $this->getJson('/api/v1/booking/pro/free-slots')->assertOk()->json('data'));
         $this->postJson("/api/v1/booking/pro/time-requests/{$id}/offer", ['slots' => [$this->msk('2026-10-06 19:00')->toIso8601String()]])
             ->assertStatus(422)->assertJsonPath('code', 'slot_unavailable');
         $this->postJson("/api/v1/booking/pro/time-requests/{$id}/offer", ['slots' => [$this->msk('2026-10-07 10:00')->toIso8601String()], 'comment' => 'Могу в среду утром'])

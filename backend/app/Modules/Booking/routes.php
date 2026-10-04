@@ -34,6 +34,7 @@ Route::middleware('auth:sanctum')->prefix('booking')->group(function () {
     // Psychologist (PRO-04).
     Route::middleware('role:psychologist,supervisor')->prefix('pro')->group(function () {
         Route::get('sessions', [ProSessionController::class, 'index']);
+        Route::get('free-slots', [ProSessionController::class, 'freeSlots']);
         Route::get('sessions/{session}', [ProSessionController::class, 'show']);
         Route::post('sessions/{session}/outcome', [ProSessionController::class, 'outcome']);
         Route::post('sessions/{session}/cancel', [ProSessionController::class, 'cancel']);
