@@ -10,6 +10,7 @@ use App\Modules\Booking\Models\TherapySession;
 use App\Modules\Booking\Support\BookingError;
 use App\Modules\Booking\Support\SessionTime;
 use App\Modules\Notifications\Notifier;
+use App\Modules\Payments\Models\ChargeTask;
 use App\Modules\Payments\Models\ClientBalanceOperation;
 use App\Modules\Payments\Models\Payment;
 use App\Modules\Payments\Models\PaymentMethod;
@@ -241,17 +242,19 @@ class BookingService
 
             // Immediate payment: the cabinet balance first (Q-52).
             if ($this->balance->summary($client->id)['available'] >= $quote['amount_due']) {
-                $session = $this->createSession([...$attrs, 'payment_source' => 'balance', 'paid_at' => now()], TherapySession::PAID, $client, $mode);
+                $session = $this->createSession([
+                    ...$attrs,
+                    'payment_source' => 'balance',
+                    'paid_at' => now(),
+                    'paid_balance' => $quote['amount_due'],
+                    'amount_charged' => $quote['amount_due'],
+                ], TherapySession::PAID, $client, $mode);
                 $op = $this->balance->reserveSpend($client->id, $quote['amount_due'], $session);
                 if (! $op || $op->amount < $quote['amount_due']) {
                     BookingError::fail('Баланс личного кабинета изменился. Повторите запись.', 'balance_changed', 'booking', 409);
                 }
                 $this->balance->confirmSpend($op, $session);
-                $session->forceFill([
-                    'paid_balance' => $op->amount,
-                    'paid_certificate' => (int) $op->certificate_amount,
-                    'amount_charged' => $op->amount,
-                ])->save();
+                $session->forceFill(['paid_certificate' => (int) $op->certificate_amount])->save();
                 $this->reservePromo($quote, $client, $session, consume: true);
                 $hold?->delete();
 
@@ -485,7 +488,7 @@ class BookingService
                 throw ValidationException::withMessages(['starts_at' => 'Выберите другое время.']);
             }
             $late = $this->isCharged($s);
-            $task = $s->chargeTask;
+            $task = ChargeTask::where('therapy_session_id', $s->id)->first();
             if ($late) {
                 $minStart = now()->addMinutes((int) $s->param('P-CHARGE-OFFSET'));
                 if ($newStart < $minStart) {
@@ -506,7 +509,7 @@ class BookingService
                 'starts_at' => $newStart,
                 'ends_at' => $newStart->addMinutes((int) $s->duration_min),
                 'reschedule_count' => $s->reschedule_count + 1,
-                'reminders_sent' => null,
+                'reminders_sent' => ReminderService::passedThresholds($newStart),
             ];
             if ($late) {
                 $attrs['late_reschedule_count'] = $s->late_reschedule_count + 1;
@@ -625,7 +628,11 @@ class BookingService
     public function createSession(array $attributes, string $status, User $actor, string $mode): TherapySession
     {
         $session = new TherapySession;
-        $session->forceFill([...$attributes, 'status' => $status])->save();
+        $session->forceFill([
+            'reminders_sent' => ReminderService::passedThresholds(CarbonImmutable::parse($attributes['starts_at'])),
+            ...$attributes,
+            'status' => $status,
+        ])->save();
         $session->recordInitialState($actor->id, [
             'kind' => 'booked',
             'payment_mode' => $mode,
@@ -635,6 +642,18 @@ class BookingService
             'amount_charged' => (int) $session->amount_charged,
             'source' => $session->source,
         ], event: 'book.session.booked');
+        if ($status === TherapySession::PAID && $mode !== 'free_reschedule') {
+            // Paid right at booking (late booking, balance, free, corporate): the "paid" fact is published as well,
+            // e.g. for the referral reward (SEQ-19). A free reschedule only moves an existing payment.
+            Outbox::record('book.session.paid', $session, [
+                'from' => null,
+                'to' => TherapySession::PAID,
+                'kind' => 'paid_at_booking',
+                'price' => (int) $session->price,
+                'amount_charged' => (int) $session->amount_charged,
+                'payment_source' => $session->payment_source,
+            ], $actor->id);
+        }
 
         return $session;
     }

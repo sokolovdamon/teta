@@ -62,6 +62,10 @@ class CardService
 
     public function handleWebhook(WebhookEvent $event): void
     {
+        // Payout cards (PRO-09) are bound and confirmed by PAYOUT itself through status() (keys "payout-card:…").
+        if (str_starts_with($event->idempotencyKey, 'payout-card:')) {
+            return;
+        }
         $binding = CardBinding::where('idempotency_key', $event->idempotencyKey)->first();
         if ($binding) {
             $this->applyBinding($binding, $event->operation);

@@ -155,10 +155,11 @@ class BookingNotifications
 
     public function reminder(TherapySession $s, int $minutes): void
     {
-        $when = $minutes >= 1440 ? 'завтра' : ($minutes >= 120 ? 'через '.intdiv($minutes, 60).' ч' : 'через час');
-        if ($minutes < 60) {
-            $when = 'через '.$minutes.' мин';
-        }
+        $when = match (true) {
+            $minutes >= 90 => 'через '.(int) round($minutes / 60).' ч',
+            $minutes >= 50 => 'через час',
+            default => 'через '.$minutes.' мин',
+        };
         $vars = ['when' => $when, 'room_open' => Settings::int('P-ROOM-OPEN')];
         foreach (array_filter([$this->client($s), $s->partner_user_id ? User::find($s->partner_user_id) : null]) as $user) {
             $this->notifier->send($user, 'book.session_reminder', [...$this->clientVars($s, $user->timezone ?: $s->client_timezone), ...$vars], '/client/sessions');

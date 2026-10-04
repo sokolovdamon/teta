@@ -17,6 +17,19 @@ class ReminderService
 {
     public function __construct(private BookingNotifications $notify) {}
 
+    /**
+     * Thresholds whose moment has already passed for a session starting at $start: they are marked as sent at
+     * booking or reschedule, so a booking made 2 h before the start gets only the 1 h reminder.
+     *
+     * @return list<int>
+     */
+    public static function passedThresholds(CarbonImmutable $start): array
+    {
+        $lead = now()->diffInMinutes($start, false);
+
+        return array_values(array_filter(array_map('intval', (array) Settings::get('P-REMINDERS')), fn ($t) => $lead <= $t));
+    }
+
     public function send(): int
     {
         $thresholds = array_map('intval', (array) Settings::get('P-REMINDERS'));
@@ -48,7 +61,7 @@ class ReminderService
                 }
                 $s->forceFill(['reminders_sent' => array_values(array_unique([...$already, ...$due]))])->save();
 
-                return $current;
+                return max(1, $lead);
             });
             if ($minutes !== null) {
                 $this->notify->reminder(TherapySession::findOrFail($id), $minutes);

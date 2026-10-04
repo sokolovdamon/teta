@@ -7,6 +7,7 @@ use App\Modules\Booking\Contracts\CorporateCoverage;
 use App\Modules\Booking\Models\QualityIncident;
 use App\Modules\Booking\Models\TherapySession;
 use App\Modules\Booking\Support\BookingError;
+use App\Modules\Payments\Models\ChargeTask;
 use App\Modules\Payments\Services\ChargeService;
 use App\Modules\Promo\Contracts\PromoCodes;
 use App\Modules\Psychologists\Models\Psychologist;
@@ -387,7 +388,7 @@ class CancellationService
 
     private function cancelChargeTask(TherapySession $s, ?string $actorId, bool $force = false): void
     {
-        $task = $s->chargeTask;
+        $task = ChargeTask::where('therapy_session_id', $s->id)->first();
         if (! $task) {
             return;
         }
