@@ -2,6 +2,5 @@
 
 use Illuminate\Support\Facades\Broadcast;
 
-Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
-    return (int) $user->id === (int) $id;
-});
+// Personal channel: notification centre, support replies, booking updates.
+Broadcast::channel('users.{id}', fn ($user, string $id) => $user->id === $id);

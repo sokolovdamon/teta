@@ -1,8 +1,3 @@
 <?php
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
-
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+// Module routes are mounted from app/Modules/*/routes.php under /api/v1 by ModulesServiceProvider.
