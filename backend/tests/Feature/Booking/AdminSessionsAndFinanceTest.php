@@ -5,8 +5,12 @@ namespace Tests\Feature\Booking;
 use App\Models\User;
 use App\Modules\Audit\Models\AuditLog;
 use App\Modules\Booking\Models\TherapySession;
+use App\Modules\Notifications\Models\UserNotification;
+use App\Modules\Payments\Models\ChargeTask;
 use App\Modules\Payments\Models\Payment;
 use App\Modules\Payouts\Models\Accrual;
+use App\Modules\Psychologists\Services\QualificationService;
+use App\Modules\Psychologists\Services\WorkStatusService;
 use Tests\TestCase;
 
 /** ADM-04 sessions, ADM-07 finance, platform cancellations on blocking (BR-CANC-09), PAYOUT contract. */
@@ -83,6 +87,25 @@ class AdminSessionsAndFinanceTest extends TestCase
         $this->assertSame('cancelled_by_system', $booked->fresh()->status);
         $this->assertSame(400000, $this->balanceOf($client)['available']);
         $this->assertSame(['block'], $this->events('book.session.cancelled_by_system')->pluck('payload.kind')->unique()->values()->all());
+    }
+
+    public function test_revoked_qualification_and_blocked_work_status_cancel_upcoming_sessions(): void
+    {
+        $admin = $this->userWithRole('super_admin');
+        $p1 = $this->makePsychologist(['price_individual' => 400000]);
+        $p2 = $this->makePsychologist(['price_individual' => 400000]);
+        $client = $this->client();
+        $this->bindCard($client);
+        $s1 = $this->book($client, $p1, '2026-10-08 14:00');
+        $s2 = $this->book($client, $p2, '2026-10-09 14:00');
+
+        app(QualificationService::class)->reject($p1, $admin, 'Диплом не подтверждён');
+        app(WorkStatusService::class)->block($p2, $admin, 'Нарушение правил платформы');
+
+        $this->assertSame('cancelled_by_system', $s1->fresh()->status);
+        $this->assertSame('cancelled_by_system', $s2->fresh()->status);
+        $this->assertSame('cancelled', ChargeTask::where('therapy_session_id', $s1->id)->value('status'));
+        $this->assertTrue(UserNotification::where('user_id', $client->id)->where('template_code', 'book.session_cancelled_platform')->exists());
     }
 
     public function test_finance_summary_payments_manual_refund_and_charge_tasks(): void
