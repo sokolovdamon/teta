@@ -61,6 +61,11 @@ class DemoSeeder extends Seeder
         $supervisor = $this->user('supervisor@teta.local', 'Татьяна', 'Супервизорова', ['psychologist', 'supervisor']);
         $this->psychologist($supervisor, ['Татьяна', 'Супервизорова', 'female', 1975, 22, 700000, 900000, ['psihodinamicheskiy', 'geshtalt'], ['travma', 'krizisy'], 'Супервизор и практикующий психолог с 20-летним стажем.'], 8);
         $rbac->assignRole($supervisor, 'supervisor');
+
+        // Module demo data: database/seeders/Demo/*Seeder.php are run automatically after the base demo.
+        foreach (ReferenceDataSeeder::discover('Demo') as $class) {
+            $this->call($class);
+        }
     }
 
     private function user(string $email, string $name, string $lastName, array $roles): User

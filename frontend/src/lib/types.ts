@@ -1,8 +1,9 @@
 export type Role = "client" | "psychologist" | "supervisor" | "admin" | "super_admin" | "hr";
 
 export type User = {
-  id: number;
+  id: string;
   email: string;
+  pending_email?: string | null;
   name: string;
   last_name?: string | null;
   phone?: string | null;
@@ -10,9 +11,13 @@ export type User = {
   roles: Role[];
   permissions: string[];
   avatar_url?: string | null;
-  psychologist_id?: number | null;
-  company_id?: number | null;
+  psychologist_id?: string | null;
+  company_id?: string | null;
   email_verified: boolean;
+  status: "active" | "blocked" | "pending_deletion" | "deleted";
+  deletion_requested_at?: string | null;
+  birth_date?: string | null;
+  gender?: string | null;
 };
 
 export type Paginated<T> = {

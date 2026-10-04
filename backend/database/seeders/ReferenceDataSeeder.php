@@ -110,6 +110,23 @@ class ReferenceDataSeeder extends Seeder
         $this->documents();
         $this->templates();
         $this->calendar();
+
+        // Module reference data: database/seeders/Reference/*Seeder.php are run automatically.
+        foreach (self::discover('Reference') as $class) {
+            $this->call($class);
+        }
+    }
+
+    /** @return list<class-string<Seeder>> */
+    public static function discover(string $folder): array
+    {
+        $classes = [];
+        foreach (glob(database_path("seeders/{$folder}/*Seeder.php")) ?: [] as $file) {
+            $classes[] = 'Database\\Seeders\\'.$folder.'\\'.basename($file, '.php');
+        }
+        sort($classes);
+
+        return $classes;
     }
 
     /** Texts are provided by the customer (DEC-34); placeholders keep consent flows working until then. */
