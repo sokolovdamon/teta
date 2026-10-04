@@ -23,6 +23,8 @@ return Application::configure(basePath: dirname(__DIR__))
             'verified.email' => EnsureEmailVerified::class,
         ]);
         $middleware->trustProxies(at: '*');
+        // API guests get 401 JSON (there is no Laravel login page; the Next.js site owns /auth/login).
+        $middleware->redirectGuestsTo(fn (Request $request) => $request->is('api/*') ? null : rtrim((string) config('app.frontend_url'), '/').'/auth/login');
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(
