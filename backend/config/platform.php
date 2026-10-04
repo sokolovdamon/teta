@@ -40,8 +40,15 @@ return [
         'P-PAYOUT-PERIOD' => ['value' => 'weekly_monday', 'unit' => 'enum', 'group' => 'money', 'title' => 'Период выплат'],
         'P-PAYOUT-MIN' => ['value' => 100000, 'unit' => 'kopecks', 'group' => 'money', 'title' => 'Минимальная выплата'],
         'P-PAYOUT-AUTO-APPROVE' => ['value' => true, 'unit' => 'bool', 'group' => 'money', 'title' => 'Автоутверждение реестра выплат'],
+        'P-PAYOUT-WEBHOOK-WAIT' => ['value' => 30, 'unit' => 'min', 'group' => 'money', 'title' => 'Ожидание вебхука о выплате до запроса статуса'],
         'P-GIFT-VALIDITY' => ['value' => 365, 'unit' => 'days', 'group' => 'money', 'title' => 'Срок действия сертификата'],
         'P-GIFT-NOMINALS' => ['value' => [300000, 500000, 1000000], 'unit' => 'kopecks[]', 'group' => 'money', 'title' => 'Номиналы сертификатов'],
+
+        // Referral program "Пригласи друга" (DEC-42, SEQ-19); sizes are edited in ADM-09
+        'P-REFERRAL-FRIEND-DISCOUNT' => ['value' => 50, 'unit' => '%', 'group' => 'promo', 'title' => 'Скидка другу на первую сессию'],
+        'P-REFERRAL-REWARD-TYPE' => ['value' => 'fixed', 'unit' => 'enum', 'group' => 'promo', 'title' => 'Промокод пригласившему: fixed (сумма) или percent (процент)'],
+        'P-REFERRAL-REWARD-VALUE' => ['value' => 100000, 'unit' => 'kopecks|%', 'group' => 'promo', 'title' => 'Размер промокода пригласившему'],
+        'P-REFERRAL-CODE-VALIDITY' => ['value' => 90, 'unit' => 'days', 'group' => 'promo', 'title' => 'Срок действия промокодов программы'],
 
         // Supervision (DEC-21, DEC-37)
         'P-SUPERV-MONTHLY' => ['value' => 1, 'unit' => 'count', 'group' => 'supervision', 'title' => 'Супервизий в календарный месяц'],
