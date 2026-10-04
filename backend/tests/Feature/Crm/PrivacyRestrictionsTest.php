@@ -197,7 +197,8 @@ class PrivacyRestrictionsTest extends TestCase
 
         $this->postJson("/api/v1/pro/clients/{$client->id}/finish")->assertOk()->assertJsonPath('data.status', 'finished');
         $event = DomainEvent::where('name', 'crm.work.finished')->first();
-        $this->assertSame(['psychologist_id' => $psy->id, 'client_id' => $client->id], collect($event->payload)->only(['psychologist_id', 'client_id'])->all());
+        $this->assertSame($psy->id, $event->payload['psychologist_id']);
+        $this->assertSame($client->id, $event->payload['client_id']);
         $this->assertArrayHasKey('at', $event->payload);
         $this->postJson("/api/v1/pro/clients/{$client->id}/finish")->assertStatus(409);
 
