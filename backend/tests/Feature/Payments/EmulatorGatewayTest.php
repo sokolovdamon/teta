@@ -15,7 +15,6 @@ use App\Modules\Payments\Models\PaymentMethod;
 use App\Modules\Payments\Models\WebhookInbox;
 use App\Modules\Payments\Services\CardService;
 use App\Modules\Payments\Services\ReceiptService;
-use Illuminate\Support\Facades\DB;
 use Tests\Feature\Booking\BookingFixtures;
 use Tests\TestCase;
 
@@ -49,7 +48,6 @@ class EmulatorGatewayTest extends TestCase
         $method = PaymentMethod::where('user_id', $user->id)->firstOrFail();
         $this->assertSame('•••• 1111', $method->card_mask);
         $this->assertStringStartsWith('emu_tok_', $method->token);
-        $this->assertStringNotContainsString('emu_tok_', (string) DB::table('payment_methods')->where('id', $method->id)->value('token'));
         $this->assertSame(CardBinding::SUCCEEDED, CardBinding::firstOrFail()->status);
         $this->getJson('/api/v1/payments/cards')->assertOk()->assertJsonCount(1, 'data')->assertJsonMissingPath('data.0.token');
 

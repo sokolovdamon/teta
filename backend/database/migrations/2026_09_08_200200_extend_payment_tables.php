@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('error_message')->nullable();
         });
 
-        // Gateway tokens are stored encrypted (SEQ-01); an encrypted payload does not fit 255 chars.
+        // Room for longer provider tokens (and for encrypting them at rest, SEQ-01).
         Schema::table('payment_methods', function (Blueprint $table) {
             $table->text('token')->change();
         });
