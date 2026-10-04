@@ -35,13 +35,24 @@ class Psychologist extends Model
 
     protected static string $eventPrefix = 'psy';
 
-    protected $guarded = ['id', 'qualification_status', 'activity_status', 'work_status'];
+    protected $guarded = ['id', 'qualification_status', 'activity_status', 'work_status', 'video_status', 'search_vector'];
+
+    protected $hidden = ['search_vector'];
+
+    /** Document kinds that confirm psychological education (BR-PSY-02): a diploma or professional retraining. */
+    public const EDUCATION_DOCUMENT_KINDS = ['diploma', 'retraining'];
+
+    public const DOCUMENT_KINDS = ['diploma', 'retraining', 'certificate', 'other'];
 
     protected function casts(): array
     {
         return [
             'education' => 'array',
             'pending_changes' => 'array',
+            'birth_year' => 'integer',
+            'experience_years' => 'integer',
+            'price_individual' => 'integer',
+            'price_pair' => 'integer',
             'works_individual' => 'boolean',
             'works_pair' => 'boolean',
             'is_published' => 'boolean',
@@ -49,6 +60,9 @@ class Psychologist extends Model
             'qualified_at' => 'datetime',
             'published_at' => 'datetime',
             'pending_submitted_at' => 'datetime',
+            'pending_reviewed_at' => 'datetime',
+            'video_submitted_at' => 'datetime',
+            'video_reviewed_at' => 'datetime',
         ];
     }
 
@@ -73,6 +87,13 @@ class Psychologist extends Model
                 'paused' => ['active', 'blocked'],
                 'blocked' => ['active'],
             ],
+            // DEC-44: the video card is moderated separately and never affects qualification.
+            'video_status' => [
+                'none' => ['pending'],
+                'pending' => ['pending', 'approved', 'rejected', 'none'],
+                'approved' => ['pending', 'none'],
+                'rejected' => ['pending', 'none'],
+            ],
         ];
     }
 
@@ -94,9 +115,16 @@ class Psychologist extends Model
         return $this->belongsTo(StoredFile::class, 'photo_file_id');
     }
 
+    /** The latest uploaded video card (status in video_status). */
     public function video(): BelongsTo
     {
         return $this->belongsTo(StoredFile::class, 'video_file_id');
+    }
+
+    /** The video card shown on the site: the last approved one. */
+    public function approvedVideo(): BelongsTo
+    {
+        return $this->belongsTo(StoredFile::class, 'video_approved_file_id');
     }
 
     public function priceCategory(): BelongsTo
@@ -137,6 +165,17 @@ class Psychologist extends Model
     public function fullName(): string
     {
         return trim($this->first_name.' '.$this->last_name);
+    }
+
+    public function age(): ?int
+    {
+        return $this->birth_year ? (int) now()->year - (int) $this->birth_year : null;
+    }
+
+    /** Was the qualification ever confirmed (the public page exists, active or inactive)? */
+    public function wasEverApproved(): bool
+    {
+        return $this->qualification_status === 'approved' || $this->qualified_at !== null;
     }
 
     /** New bookings are open for everyone only when this is true. */
