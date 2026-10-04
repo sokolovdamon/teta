@@ -30,7 +30,8 @@ class DictionaryController extends Controller
 
     public function all()
     {
-        $data = Cache::remember('dictionaries.public', 600, fn () => [
+        // The cache stores plain arrays only (Laravel 13 refuses to unserialize objects: cache.serializable_classes).
+        $data = Cache::remember('dictionaries.public', 600, fn () => json_decode(json_encode([
             'request_groups' => RequestGroup::with(['requests' => fn ($q) => $q->where('is_published', true)])->orderBy('sort')->get()
                 ->map(fn ($g) => [
                     'id' => $g->id, 'slug' => $g->slug, 'title' => $g->title, 'format' => $g->format,
@@ -43,7 +44,7 @@ class DictionaryController extends Controller
             'specializations' => Specialization::where('is_active', true)->orderBy('sort')->get(['id', 'slug', 'title']),
             'service_types' => ServiceType::where('is_active', true)->get(['id', 'code', 'title', 'duration_min']),
             'price_categories' => PriceCategory::orderBy('sort')->get(['id', 'code', 'title', 'min_price', 'max_price']),
-        ]);
+        ]), true));
 
         return response()->json(['data' => $data]);
     }

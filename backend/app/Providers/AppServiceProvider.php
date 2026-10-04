@@ -53,7 +53,11 @@ class AppServiceProvider extends ServiceProvider
             'corporate_participation' => CorporateParticipation::class,
         ]);
 
-        RateLimiter::for('auth', fn (Request $request) => Limit::perMinute(10)->by($request->ip()));
+        // Brute-force protection per address and account; the per-account lock is P-LOGIN-ATTEMPTS (AuthService).
+        RateLimiter::for('auth', fn (Request $request) => [
+            Limit::perMinute(10)->by('auth:'.$request->ip().'|'.mb_strtolower((string) $request->input('email'))),
+            Limit::perMinute(60)->by('auth-ip:'.$request->ip()),
+        ]);
         RateLimiter::for('api', fn (Request $request) => Limit::perMinute(120)->by($request->user()?->id ?: $request->ip()));
     }
 }

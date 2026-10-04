@@ -127,4 +127,9 @@ class AuthTest extends TestCase
         $this->postJson('/api/v1/auth/email/verify', $link)->assertOk();
         $this->assertSame('new@example.com', $user->fresh()->email);
     }
+
+    public function test_api_guest_without_json_accept_gets_401_not_500(): void
+    {
+        $this->get('/api/v1/auth/me', ['Accept' => 'text/html'])->assertUnauthorized();
+    }
 }

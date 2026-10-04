@@ -23,6 +23,7 @@
 - Письма и центр уведомлений: `app(App\Modules\Notifications\Notifier::class)->send($user, 'code', $vars, $link)`; шаблоны — `app/Modules/<Module>/notifications.php`. В письмах нет сведений о состоянии клиента.
 - Действия администратора пишем в аудит: `App\Modules\Audit\Audit::log('ADM-xx', 'action', $subject, $changes)`.
 - Права: middleware `permission:admin.users.view` (каталог — `config/rbac.php`), `role:psychologist,supervisor`, `verified.email`. Жёсткие запреты (заметки психолога — только автор; дневник и история сессий — только психолог клиента) проверяются в коде, не через RBAC.
+- В кеш кладём только скаляры и массивы: Laravel 13 не десериализует объекты (`cache.serializable_classes = false`), коллекция из кеша превращается в `__PHP_Incomplete_Class`.
 - Полиморфные типы регистрируем в сервис-провайдере модуля: `Relation::morphMap([...])`.
 - Сиды: справочные данные модуля — `database/seeders/Reference/*Seeder.php`, демо — `database/seeders/Demo/*Seeder.php` (подключаются автоматически).
 - Общие сервисы: свободные слоты и удержание — `App\Modules\Schedule\Services\SlotService`; требование ежемесячной супервизии и статус активности (ST-09) — `App\Modules\Psychologists\Services\ActivityService` (`markMonthMet`, `payoutAllowed`); промокоды для записи — контракт `App\Modules\Promo\Contracts\PromoCodes`.
