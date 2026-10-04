@@ -118,7 +118,7 @@ function ActiveProfile({ p }: { p: PsychologistProfile }) {
             <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">{p.name}</h1>
             {p.headline && <p className="text-lg text-ink-2">{p.headline}</p>}
             <p className="text-muted">
-              {[experienceLabel(p.experience_years), p.age ? `${p.age} ${plural(p.age, ["год", "года", "лет"])}` : null, formats.map((f) => FORMAT_LABELS[f.format].toLowerCase()).join(" и ") + " формат"]
+              {[experienceLabel(p.experience_years), p.age ? `${p.age} ${plural(p.age, ["год", "года", "лет"])}` : null, formats.length > 1 ? "индивидуальные и парные сессии" : formats[0]?.format === "pair" ? "парные сессии" : "индивидуальные сессии"]
                 .filter(Boolean)
                 .join(" · ")}
             </p>

@@ -136,3 +136,13 @@ h3 {
 .num {
   font-variant-numeric: tabular-nums;
 }
+
+/*
+ * A grid without explicit columns gets one implicit column sized to its widest child, so a carousel or a long
+ * word inside widens the whole page on mobile. Default to a shrinkable column; grid-cols-* utilities still win.
+ */
+@layer base {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

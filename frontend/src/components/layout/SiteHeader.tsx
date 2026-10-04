@@ -17,7 +17,7 @@ export async function SiteHeader() {
   const user = await getCurrentUser();
   return (
     <header className="sticky top-0 z-30 border-b border-line bg-ground/90 backdrop-blur">
-      <div className="mx-auto flex h-16 max-w-7xl items-center gap-6 px-4 sm:px-6">
+      <div className="mx-auto flex h-16 max-w-7xl items-center gap-3 px-4 sm:gap-6 sm:px-6">
         <Logo />
         <nav className="hidden flex-1 items-center gap-1 lg:flex">
           {links.map((l) => (
@@ -26,7 +26,7 @@ export async function SiteHeader() {
             </Link>
           ))}
         </nav>
-        <div className="ml-auto flex items-center gap-2">
+        <div className="ml-auto flex items-center gap-1 sm:gap-2">
           <Link href="/help-now" className="hidden text-sm font-medium text-danger sm:inline">
             Экстренная помощь
           </Link>
@@ -40,7 +40,8 @@ export async function SiteHeader() {
             </LinkButton>
           )}
           <LinkButton href="/podbor" size="sm">
-            Подобрать психолога
+            <span className="sm:hidden">Подбор</span>
+            <span className="hidden sm:inline">Подобрать психолога</span>
           </LinkButton>
         </div>
       </div>
