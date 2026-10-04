@@ -1,0 +1,726 @@
+<title>Проектный пакет ТЕТА</title>
+<meta name="description" content="Сводка проектной документации новой платформы онлайн-психологии ТЕТА">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Onest:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    --ground: #F6F5FA;
+    --surface: #FFFFFF;
+    --sunken: #EFEDF6;
+    --ink: #211A36;
+    --ink-2: #463E5E;
+    --muted: #6B6485;
+    --line: #E2DEEB;
+    --line-strong: #CBC4DC;
+    --brand: #423670;
+    --accent: #564792;
+    --accent-2: #6D5CB0;
+    --accent-soft: #EAE6F6;
+    --brand-panel: #2E254E;
+    --on-panel: #F3F0FB;
+    --on-panel-muted: #C9C0E6;
+    --bar-prep: #BDB4D9;
+    --bar-design: #6D5CB0;
+    --bar-build: #423670;
+    --bar-launch: #2E254E;
+    --grid: #E7E3EF;
+    --marker: #9E3339;
+    --crit: #9E3339;
+    --crit-soft: #F7E7E8;
+    --mvp-bg: #423670;
+    --mvp-ink: #FFFFFF;
+    --r2-bg: #EAE6F6;
+    --r2-ink: #564792;
+    --r3-bg: #EEECF2;
+    --r3-ink: #6B6485;
+    --display: "Oswald", "Arial Narrow", "Roboto Condensed", Arial, sans-serif;
+    --body: "Onest", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #14101E;
+      --surface: #1C172B;
+      --sunken: #231D35;
+      --ink: #EDE9F7;
+      --ink-2: #CEC7E2;
+      --muted: #9C94B6;
+      --line: #2E2743;
+      --line-strong: #433A5C;
+      --brand: #C4B9F5;
+      --accent: #AFA2EC;
+      --accent-2: #9D8FE3;
+      --accent-soft: #2A2340;
+      --brand-panel: #2A2244;
+      --on-panel: #F1EDFB;
+      --on-panel-muted: #BDB3DD;
+      --bar-prep: #4A4166;
+      --bar-design: #8F80DA;
+      --bar-build: #B9AEF0;
+      --bar-launch: #E3DDFA;
+      --grid: #29223C;
+      --marker: #E58C92;
+      --crit: #E58C92;
+      --crit-soft: #3A2127;
+      --mvp-bg: #C4B9F5;
+      --mvp-ink: #14101E;
+      --r2-bg: #2A2340;
+      --r2-ink: #C4B9F5;
+      --r3-bg: #242033;
+      --r3-ink: #A59DBF;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground: #14101E;
+    --surface: #1C172B;
+    --sunken: #231D35;
+    --ink: #EDE9F7;
+    --ink-2: #CEC7E2;
+    --muted: #9C94B6;
+    --line: #2E2743;
+    --line-strong: #433A5C;
+    --brand: #C4B9F5;
+    --accent: #AFA2EC;
+    --accent-2: #9D8FE3;
+    --accent-soft: #2A2340;
+    --brand-panel: #2A2244;
+    --on-panel: #F1EDFB;
+    --on-panel-muted: #BDB3DD;
+    --bar-prep: #4A4166;
+    --bar-design: #8F80DA;
+    --bar-build: #B9AEF0;
+    --bar-launch: #E3DDFA;
+    --grid: #29223C;
+    --marker: #E58C92;
+    --crit: #E58C92;
+    --crit-soft: #3A2127;
+    --mvp-bg: #C4B9F5;
+    --mvp-ink: #14101E;
+    --r2-bg: #2A2340;
+    --r2-ink: #C4B9F5;
+    --r3-bg: #242033;
+    --r3-ink: #A59DBF;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 17px;
+    line-height: 1.6;
+    font-feature-settings: "tnum" 0;
+  }
+  a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+  a:hover { color: var(--brand); }
+  :focus-visible { outline: 2px solid var(--accent-2); outline-offset: 3px; border-radius: 3px; }
+  code, .mono { font-family: var(--mono); font-size: 0.86em; }
+  h1, h2, h3 { text-wrap: balance; }
+  p { margin: 0; }
+
+  .wrap {
+    max-width: 1220px;
+    margin: 0 auto;
+    padding: 36px 28px 72px;
+    display: grid;
+    grid-template-columns: 196px minmax(0, 1fr);
+    column-gap: 60px;
+    row-gap: 48px;
+  }
+
+  /* Masthead */
+  .masthead { grid-column: 1 / -1; display: grid; gap: 22px; padding-bottom: 36px; border-bottom: 1px solid var(--line); }
+  .brandline { display: flex; align-items: center; gap: 14px; color: var(--brand); flex-wrap: wrap; }
+  .brandline svg { width: 30px; height: 36px; flex: none; }
+  .brandline .divider { width: 1px; height: 30px; background: currentColor; opacity: .6; }
+  .wordmark { font-family: var(--display); font-weight: 600; font-size: 26px; letter-spacing: .1em; line-height: 1; }
+  .brand-meta { color: var(--muted); font-size: 14px; margin-left: 8px; }
+  .eyebrow {
+    font-family: var(--mono); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--accent-2);
+  }
+  h1 {
+    font-family: var(--display); font-weight: 500; font-size: clamp(38px, 5.2vw, 60px); line-height: 1.02;
+    letter-spacing: .005em; margin: 0; max-width: 18ch; color: var(--ink);
+  }
+  .lead { font-size: 19px; line-height: 1.55; color: var(--ink-2); max-width: 64ch; }
+  .scope { display: flex; flex-wrap: wrap; gap: 14px 36px; margin: 6px 0 0; }
+  .scope div { display: grid; gap: 2px; }
+  .scope dt { order: 2; font-size: 13px; color: var(--muted); line-height: 1.3; max-width: 16ch; }
+  .scope dd { order: 1; margin: 0; font-family: var(--display); font-weight: 500; font-size: 30px; line-height: 1; color: var(--brand); font-variant-numeric: tabular-nums; }
+  .status { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 14px; color: var(--muted); }
+  .status span { display: inline-flex; align-items: center; gap: 8px; }
+  .status span::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--line-strong); }
+  .status span:first-child::before { background: var(--accent-2); }
+
+  /* Index */
+  .index { position: sticky; top: 28px; align-self: start; }
+  .index p { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+  .index ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+  .index a { display: block; padding: 6px 10px; margin-left: -10px; border-radius: 6px; color: var(--ink-2); text-decoration: none; font-size: 15px; line-height: 1.35; }
+  .index a:hover { background: var(--accent-soft); color: var(--brand); }
+
+  main { display: flex; flex-direction: column; gap: 92px; min-width: 0; }
+  section { display: flex; flex-direction: column; gap: 28px; scroll-margin-top: 24px; min-width: 0; }
+  .section-head { display: grid; gap: 10px; }
+  .kicker { font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--accent-2); }
+  h2 { font-family: var(--display); font-weight: 500; font-size: 36px; line-height: 1.08; margin: 0; letter-spacing: .005em; }
+  .section-lead { color: var(--ink-2); max-width: 66ch; }
+  h3 { font-family: var(--display); font-weight: 500; font-size: 20px; line-height: 1.2; margin: 0; letter-spacing: .01em; }
+
+  .tag {
+    display: inline-flex; align-items: center; font-family: var(--mono); font-size: 11px; letter-spacing: .06em;
+    text-transform: uppercase; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--line-strong);
+    color: var(--muted); white-space: nowrap; line-height: 1.5;
+  }
+  .rel { font-family: var(--mono); font-size: 11px; letter-spacing: .04em; padding: 1px 7px; border-radius: 4px; white-space: nowrap; line-height: 1.6; }
+  .rel-mvp { background: var(--mvp-bg); color: var(--mvp-ink); }
+  .rel-r2 { background: var(--r2-bg); color: var(--r2-ink); }
+  .rel-r3 { background: var(--r3-bg); color: var(--r3-ink); }
+  .qid {
+    font-family: var(--mono); font-size: 13px; color: var(--brand); background: var(--accent-soft);
+    padding: 2px 8px; border-radius: 4px; justify-self: start; align-self: start; white-space: nowrap; line-height: 1.6;
+  }
+
+  /* Decisions */
+  .decisions { list-style: none; margin: 0; padding: 0; border-bottom: 1px solid var(--line); }
+  .decision {
+    display: grid; grid-template-columns: 72px minmax(0, 1fr) 190px; gap: 6px 22px; padding: 16px 0; border-top: 1px solid var(--line);
+  }
+  .decision .text { display: grid; gap: 4px; }
+  .decision .q { font-weight: 600; color: var(--ink); line-height: 1.4; }
+  .decision .rec { color: var(--ink-2); font-size: 15.5px; line-height: 1.5; }
+  .decision .blocks { display: flex; flex-wrap: wrap; gap: 6px; align-content: start; justify-content: flex-end; }
+  .note { font-size: 14px; color: var(--muted); max-width: 70ch; }
+
+  /* Competitor */
+  .facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px 32px; margin: 0; }
+  .fact { display: grid; gap: 8px; padding-top: 14px; border-top: 2px solid var(--ink); align-content: start; }
+  .fact dt { font-family: var(--display); font-weight: 500; font-size: 30px; line-height: 1.05; color: var(--brand); font-variant-numeric: tabular-nums; }
+  .fact dd { margin: 0; color: var(--ink-2); font-size: 15.5px; line-height: 1.5; }
+  .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+  table { width: 100%; border-collapse: collapse; min-width: 620px; }
+  th, td { text-align: left; vertical-align: top; padding: 13px 16px; border-bottom: 1px solid var(--line); font-size: 15.5px; line-height: 1.45; }
+  tr:last-child td { border-bottom: 0; }
+  th { font-family: var(--mono); font-weight: 500; font-size: 11.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); background: var(--sunken); }
+  th.teta, td.teta { color: var(--ink); }
+  th.teta { color: var(--brand); }
+  td.dim { color: var(--muted); width: 18%; }
+  td.yasno { color: var(--ink-2); width: 34%; }
+
+  /* Board */
+  .board { display: grid; grid-template-columns: repeat(auto-fill, minmax(262px, 1fr)); gap: 16px; align-items: start; }
+  .contour { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 18px 18px 16px; display: grid; gap: 12px; }
+  .contour header { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 10px; align-items: start; }
+  .contour .code { font-family: var(--mono); font-size: 12px; color: var(--accent-2); letter-spacing: .06em; grid-column: 1; }
+  .contour h3 { grid-column: 1; }
+  .contour .who { grid-column: 1; font-size: 13.5px; color: var(--muted); line-height: 1.4; }
+  .contour header .rel { grid-column: 2; grid-row: 1 / span 2; }
+  .sections { list-style: none; margin: 0; padding: 12px 0 0; border-top: 1px solid var(--line); display: grid; gap: 5px; }
+  .sections li { display: grid; grid-template-columns: 50px minmax(0, 1fr); gap: 8px; font-size: 14.5px; line-height: 1.4; align-items: baseline; }
+  .sections .sid { font-family: var(--mono); font-size: 11.5px; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .sections .rel { margin-left: 6px; font-size: 10px; vertical-align: 1px; }
+
+  .modules { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 40px; margin: 0; }
+  .modules div { display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: 12px; padding: 11px 0; border-top: 1px solid var(--line); align-items: baseline; }
+  .modules dt { font-size: 14.5px; color: var(--ink-2); }
+  .modules dd { margin: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+  .modules code { font-size: 12px; padding: 1px 7px; border: 1px solid var(--line-strong); border-radius: 4px; color: var(--ink); background: var(--surface); }
+
+  .principles {
+    background: var(--brand-panel); color: var(--on-panel); border-radius: 12px; padding: 26px 28px;
+    display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 18px 36px;
+  }
+  .principles h3 { color: var(--on-panel); font-size: 24px; }
+  .principles p.sub { color: var(--on-panel-muted); font-size: 14px; margin-top: 8px; }
+  .principles ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 28px; }
+  .principles li { display: grid; gap: 2px; font-size: 15.5px; line-height: 1.45; }
+  .principles li b { font-weight: 600; color: var(--on-panel); }
+  .principles li span { color: var(--on-panel-muted); }
+
+  /* Timeline */
+  .timeline { list-style: none; margin: 0; padding: 0; display: grid; }
+  .timeline li { display: grid; grid-template-columns: 118px minmax(0, 1fr); gap: 20px; }
+  .timeline .t {
+    font-family: var(--mono); font-size: 13.5px; color: var(--brand); text-align: right; padding-top: 14px; white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+  .timeline .body { position: relative; padding: 12px 0 14px 26px; border-left: 2px solid var(--line); display: grid; gap: 3px; }
+  .timeline .body::before {
+    content: ""; position: absolute; left: -7px; top: 19px; width: 12px; height: 12px; border-radius: 50%;
+    background: var(--ground); border: 2px solid var(--accent-2);
+  }
+  .timeline li.key .body::before { background: var(--accent-2); }
+  .timeline li.fail .body::before { border-color: var(--crit); }
+  .timeline .ev { font-weight: 600; line-height: 1.4; }
+  .timeline .det { color: var(--muted); font-size: 15px; line-height: 1.5; }
+
+  /* Roadmap chart */
+  .chart-wrap { overflow-x: auto; }
+  .gantt { display: grid; grid-template-columns: 230px minmax(0, 1fr); min-width: 700px; }
+  .gantt .scale { position: relative; height: 48px; border-bottom: 1px solid var(--line-strong); }
+  .gantt .tick { position: absolute; bottom: 7px; font-family: var(--mono); font-size: 11.5px; color: var(--muted); transform: translateX(-50%); white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .gantt .tick.first { transform: none; }
+  .gantt .tick.last { transform: translateX(-100%); }
+  .gantt .tick.tz { color: var(--marker); bottom: auto; top: 0; }
+  .gantt .label { padding: 7px 14px 7px 0; font-size: 14.5px; line-height: 1.3; display: flex; justify-content: space-between; gap: 10px; align-items: baseline; }
+  .gantt .label small { font-family: var(--mono); font-size: 11px; color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .gantt .group { padding: 16px 0 4px; font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--accent-2); }
+  .gantt .track {
+    position: relative; min-height: 32px;
+    background-image: linear-gradient(to right, var(--grid) 1px, transparent 1px);
+    background-size: calc(100% / 7) 100%;
+  }
+  .gantt .track::after {
+    content: ""; position: absolute; top: 0; bottom: 0; left: 46.43%; border-left: 1.5px dashed var(--marker); opacity: .75;
+  }
+  .gantt .bar { position: absolute; top: 9px; height: 14px; border-radius: 3px; }
+  .bar.prep { background: var(--bar-prep); }
+  .bar.design { background: var(--bar-design); }
+  .bar.build { background: var(--bar-build); }
+  .bar.launch { background: var(--bar-launch); }
+  .legend { display: flex; flex-wrap: wrap; gap: 8px 22px; font-size: 13.5px; color: var(--muted); }
+  .legend span { display: inline-flex; align-items: center; gap: 8px; }
+  .legend i { width: 18px; height: 10px; border-radius: 2px; display: inline-block; }
+  .legend i.tz { width: 0; height: 14px; border-left: 1.5px dashed var(--marker); border-radius: 0; }
+
+  .releases { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; }
+  .release { display: grid; gap: 10px; align-content: start; }
+  .release header { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  .release header .rel { font-size: 12px; }
+  .release header span { font-size: 14px; color: var(--muted); }
+  .release ul { margin: 0; padding-left: 18px; display: grid; gap: 4px; font-size: 15.5px; color: var(--ink-2); line-height: 1.45; }
+
+  /* Risks */
+  .risks { list-style: none; margin: 0; padding: 0; border-bottom: 1px solid var(--line); }
+  .risk { display: grid; grid-template-columns: 96px minmax(0, 1fr) auto; gap: 6px 22px; padding: 16px 0; border-top: 1px solid var(--line); }
+  .risk .text { display: grid; gap: 4px; }
+  .risk .what { font-weight: 600; line-height: 1.4; }
+  .risk .how { color: var(--ink-2); font-size: 15.5px; line-height: 1.5; }
+  .sev { font-family: var(--mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--crit); background: var(--crit-soft); padding: 2px 8px; border-radius: 999px; white-space: nowrap; align-self: start; line-height: 1.6; }
+
+  /* Package */
+  .package { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 36px; align-items: start; }
+  .tree { list-style: none; margin: 0; padding: 0; display: grid; }
+  .tree li { display: grid; grid-template-columns: 210px minmax(0, 1fr); gap: 16px; padding: 10px 0; border-top: 1px solid var(--line); align-items: baseline; }
+  .tree li:first-child { border-top: 0; }
+  .tree .path { font-family: var(--mono); font-size: 13px; color: var(--brand); word-break: break-word; }
+  .tree .what { font-size: 15px; color: var(--ink-2); line-height: 1.5; }
+  .aside { display: grid; gap: 14px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 20px; }
+  .aside h3 { font-size: 18px; }
+  .aside p { font-size: 14.5px; color: var(--ink-2); line-height: 1.5; }
+  pre { margin: 0; padding: 12px 14px; background: var(--sunken); border-radius: 6px; overflow-x: auto; font-family: var(--mono); font-size: 12.5px; line-height: 1.55; color: var(--ink); }
+
+  footer.colophon { grid-column: 1 / -1; border-top: 1px solid var(--line); padding-top: 22px; display: flex; flex-wrap: wrap; gap: 8px 28px; color: var(--muted); font-size: 13.5px; }
+  .swatches { display: inline-flex; gap: 6px; align-items: center; }
+  .swatches i { width: 14px; height: 14px; border-radius: 3px; display: inline-block; border: 1px solid var(--line); }
+
+  @media (max-width: 1080px) {
+    .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .principles { grid-template-columns: 1fr; }
+    .package { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 980px) {
+    .wrap { grid-template-columns: minmax(0, 1fr); column-gap: 0; row-gap: 32px; padding: 28px 20px 56px; }
+    .index { position: static; }
+    .index ul { display: flex; flex-wrap: wrap; gap: 4px 6px; }
+    .index a { margin-left: 0; border: 1px solid var(--line); font-size: 14px; }
+    main { gap: 72px; }
+    .decision { grid-template-columns: 64px minmax(0, 1fr); }
+    .decision .blocks { grid-column: 2; justify-content: flex-start; }
+    .modules { grid-template-columns: 1fr; }
+    .releases { grid-template-columns: 1fr; gap: 24px; }
+    .risk { grid-template-columns: 84px minmax(0, 1fr); }
+    .risk .sev { grid-column: 2; justify-self: start; }
+  }
+  @media (max-width: 620px) {
+    body { font-size: 16px; }
+    h2 { font-size: 30px; }
+    .facts { grid-template-columns: 1fr; }
+    .principles ul { grid-template-columns: 1fr; }
+    .timeline li { grid-template-columns: 84px minmax(0, 1fr); gap: 12px; }
+    .timeline .t { font-size: 12px; }
+    .modules div { grid-template-columns: 1fr; gap: 6px; }
+    .tree li { grid-template-columns: 1fr; gap: 2px; }
+  }
+</style>
+
+<div class="wrap">
+  <header class="masthead">
+    <div class="brandline">
+      <svg viewBox="0 0 30 36" aria-hidden="true">
+        <ellipse cx="15" cy="18" rx="12" ry="15.5" fill="none" stroke="currentColor" stroke-width="3.4"></ellipse>
+        <path d="M8.5 13.2 L8.5 22.8 Q15 17.2 21.5 22.8 L21.5 13.2 Q15 18.8 8.5 13.2 Z" fill="currentColor"></path>
+      </svg>
+      <span class="divider" aria-hidden="true"></span>
+      <span class="wordmark">ТЕТА</span>
+      <span class="brand-meta">Портал психологической помощи · teta.su</span>
+    </div>
+    <p class="eyebrow">Проектная документация · черновик на утверждение</p>
+    <h1>Проект новой платформы ТЕТА</h1>
+    <p class="lead">Анализ «Ясно», аудит текущего сайта, устройство платформы, требования, архитектура и роадмап собраны в один пакет. Эта страница показывает, что в нём есть и какие решения нужны от заказчика до начала дизайна. Код платформы на этом этапе не пишется.</p>
+    <dl class="scope">
+      <div><dt>решений P0 ждут заказчика</dt><dd>15</dd></div>
+      <div><dt>функциональных требований</dt><dd>426</dd></div>
+      <div><dt>нефункциональных требований</dt><dd>175</dd></div>
+      <div><dt>бизнес-правил и 37 параметров</dt><dd>114</dd></div>
+      <div><dt>модуля ядра за 8 интерфейсами</dt><dd>32</dd></div>
+      <div><dt>сущностей модели данных</dt><dd>152</dd></div>
+    </dl>
+    <div class="status">
+      <span>Версия 1.0 от 11.09.2026</span>
+      <span>Папка проекта <code>docs/</code></span>
+      <span>Разработка — после утверждения</span>
+    </div>
+  </header>
+
+  <nav class="index" aria-label="Разделы страницы">
+    <p>На странице</p>
+    <ul>
+      <li><a href="#decisions">Решения на утверждение</a></li>
+      <li><a href="#yasno">Позиция против «Ясно»</a></li>
+      <li><a href="#platform">Устройство платформы</a></li>
+      <li><a href="#session">Одна сессия во времени</a></li>
+      <li><a href="#roadmap">Роадмап</a></li>
+      <li><a href="#risks">Критические риски</a></li>
+      <li><a href="#package">Состав пакета</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <section id="decisions" aria-labelledby="h-decisions">
+      <div class="section-head">
+        <p class="kicker">Открытые вопросы · приоритет P0</p>
+        <h2 id="h-decisions">Решения на утверждение</h2>
+        <p class="section-lead">Без этих ответов нельзя начинать дизайн, биллинг или архитектуру. У каждого вопроса есть рекомендация аналитика — до ответа документация следует ей и помечает это как допущение.</p>
+      </div>
+      <ul class="decisions">
+        <li class="decision"><span class="qid">Q-01</span><div class="text"><p class="q">Насколько платформа работает с телефона</p><p class="rec">Сайт, запись и кабинеты — адаптивные; видеосессии в MVP только с компьютера, мобильное видео — во втором релизе.</p></div><div class="blocks"><span class="tag">Дизайн</span></div></li>
+        <li class="decision"><span class="qid">Q-02</span><div class="text"><p class="q">Вебинары и курсы на старте</p><p class="rec">В MVP — страница мероприятия, регистрация и ссылка на эфир; платные курсы и записи — во втором релизе.</p></div><div class="blocks"><span class="tag">Объём MVP</span></div></li>
+        <li class="decision"><span class="qid">Q-03</span><div class="text"><p class="q">Пожелания к кабинетам, отправленные в Telegram</p><p class="rec">В материалах их нет. Нужен список до wireframes, иначе кабинеты придётся переделывать.</p></div><div class="blocks"><span class="tag">Дизайн</span></div></li>
+        <li class="decision"><span class="qid">Q-04</span><div class="text"><p class="q">Цены и уровни психологов</p><p class="rec">2–3 уровня с публичными критериями; индивидуальная сессия 50 минут, парная — 90 минут при наличии специалистов.</p></div><div class="blocks"><span class="tag">Биллинг</span></div></li>
+        <li class="decision"><span class="qid">Q-05</span><div class="text"><p class="q">Правила отмены и переноса</p><p class="rec">Бесплатно до момента списания за 12 часов; условия после списания — по итогам Q-33.</p></div><div class="blocks"><span class="tag">Биллинг</span><span class="tag">Оферта</span></div></li>
+        <li class="decision"><span class="qid">Q-06</span><div class="text"><p class="q">Модель расчётов</p><p class="rec">Юрист и бухгалтер выбирают: ТЕТА — исполнитель или агент психолога-самозанятого. Ядро проектируется под обе схемы.</p></div><div class="blocks"><span class="tag">Биллинг</span><span class="tag">Налоги</span></div></li>
+        <li class="decision"><span class="qid">Q-07</span><div class="text"><p class="q">Выплаты психологам</p><p class="rec">Раз в неделю за проведённые сессии; статус самозанятого проверяется перед каждой выплатой; чеки НПД — через партнёра ФНС.</p></div><div class="blocks"><span class="tag">Биллинг</span></div></li>
+        <li class="decision"><span class="qid">Q-08</span><div class="text"><p class="q">Что умеет AI-помощник «Герман»</p><p class="rec">Только помогает сформулировать запрос и подобрать психолога; российская LLM; кризисный детектор срабатывает раньше модели.</p></div><div class="blocks"><span class="tag">Архитектура</span><span class="tag">Право</span></div></li>
+        <li class="decision"><span class="qid">Q-12</span><div class="text"><p class="q">Как решать оргвопросы без чата с психологом</p><p class="rec">Клиент отправляет удобные окна времени без свободного текста; психолог открывает слоты; остальное — через поддержку.</p></div><div class="blocks"><span class="tag">Дизайн</span></div></li>
+        <li class="decision"><span class="qid">Q-13</span><div class="text"><p class="q">Корпоративный тариф</p><p class="rec">Код компании и подтверждённый рабочий email; лимит сессий в месяц; сверх лимита — личной картой; HR видит только агрегаты.</p></div><div class="blocks"><span class="tag">Биллинг</span><span class="tag">Право</span></div></li>
+        <li class="decision"><span class="qid">Q-14</span><div class="text"><p class="q">Глубина white-label</p><p class="rec">Модель данных с тенантами закладывается в MVP, кабинет партнёра — в третьем релизе.</p></div><div class="blocks"><span class="tag">Архитектура</span></div></li>
+        <li class="decision"><span class="qid">Q-17</span><div class="text"><p class="q">Фирменные шрифты не набирают русский текст</p><p class="rec">У Staatliches и Alata нет кириллицы. Замена — Oswald и Onest: эта страница набрана именно ими.</p></div><div class="blocks"><span class="tag">Дизайн</span></div></li>
+        <li class="decision"><span class="qid">Q-33</span><div class="text"><p class="q">Удержание оплаты при поздней отмене</p><p class="rec">Полное удержание рискованно по ст. 32 Закона о защите прав потребителей. До решения юриста — один бесплатный перенос и частичный возврат.</p></div><div class="blocks"><span class="tag">Право</span><span class="tag">Биллинг</span></div></li>
+        <li class="decision"><span class="qid">Q-34</span><div class="text"><p class="q">Форма согласия на сведения о здоровье</p><p class="rec">Отдельный документ, подписанный кодом из письма. Нужны ли паспортные данные — решает юрист.</p></div><div class="blocks"><span class="tag">Право</span><span class="tag">Дизайн</span></div></li>
+        <li class="decision"><span class="qid">Q-37</span><div class="text"><p class="q">Что делать с прототипом test.teta.su</p><p class="rec">Перенести дизайн и тексты. Код на Nuxt содержит только маркетинговые страницы — от решения зависит выбор фронтенд-стека.</p></div><div class="blocks"><span class="tag">Архитектура</span></div></li>
+      </ul>
+      <p class="note">Ещё 26 вопросов приоритета P1 и P2 — в <code>docs/01_inputs/open_questions.md</code>.</p>
+    </section>
+
+    <section id="yasno" aria-labelledby="h-yasno">
+      <div class="section-head">
+        <p class="kicker">Конкурентный анализ · 45 экранов, ≈75 страниц, сторы и отзывы</p>
+        <h2 id="h-yasno">Позиция против «Ясно»</h2>
+        <p class="section-lead">Лидер рынка силён подбором и масштабом, но его продукт заканчивается на видеосессии. ТЕТА выигрывает не количеством психологов, а тем, что происходит до, между и после встреч.</p>
+      </div>
+      <dl class="facts">
+        <div class="fact"><dt>≈35 %</dt><dd>доля рынка онлайн-психологии по оценке самого сервиса; 4 100–4 800 психологов</dd></div>
+        <div class="fact"><dt>−89 %</dt><dd>падение чистой прибыли в 2025 году при выручке ≈1,1 млрд ₽; с ноября 2025-го — новый владелец</dd></div>
+        <div class="fact"><dt>0</dt><dd>инструментов между сессиями: ни дневника, ни заданий, ни AI-поддержки</dd></div>
+        <div class="fact"><dt>12 часов</dt><dd>правило автосписания без возврата — второй по частоте повод для негативных отзывов</dd></div>
+        <div class="fact"><dt>3 150–13 490 ₽</dt><dd>цена сессии по грейдам; психолог на старте получает около 2 000 ₽</dd></div>
+        <div class="fact"><dt>email и число сессий</dt><dd>что работодатель узнаёт о сотруднике в корпоративной программе</dd></div>
+      </dl>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th scope="col">Что сравниваем</th><th scope="col">«Ясно»</th><th scope="col" class="teta">ТЕТА</th></tr></thead>
+          <tbody>
+            <tr><td class="dim">Модель</td><td class="yasno">Масштаб: тысячи психологов, единый прайс</td><td class="teta">Отбор 1 из 20 и видимый контроль качества</td></tr>
+            <tr><td class="dim">Подбор</td><td class="yasno">Индекс соответствия «9.9 из 10»</td><td class="teta">Причины рекомендации простым текстом; «Герман» для тех, кому трудно сформулировать запрос</td></tr>
+            <tr><td class="dim">Между сессиями</td><td class="yasno">Переписка с психологом</td><td class="teta">Без переписки: дневник эмоций и рекомендации психолога</td></tr>
+            <tr><td class="dim">Оплата</td><td class="yasno">Правила списания спрятаны в FAQ</td><td class="teta">Точное время списания и условия отмены — на экране записи</td></tr>
+            <tr><td class="dim">Кризис</td><td class="yasno">Страница с телефонами доверия</td><td class="teta">Кризисный протокол в анкете, у «Германа» и в видеокомнате</td></tr>
+            <tr><td class="dim">Корпоративным клиентам</td><td class="yasno">HR получает email и число сессий сотрудника</td><td class="teta">HR видит только агрегаты по группам от 5 человек</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="platform" aria-labelledby="h-platform">
+      <div class="section-head">
+        <p class="kicker">Архитектура продукта · L1–L2</p>
+        <h2 id="h-platform">Устройство платформы</h2>
+        <p class="section-lead">Восемь интерфейсов работают через одно ядро. У каждого раздела есть ID — те же, что в требованиях, бэклоге и макетах. Ниже — основные разделы; полный перечень с блоками и полями в <code>teta_platform_blocks.md</code>.</p>
+      </div>
+
+      <div class="board">
+        <article class="contour">
+          <header><span class="code">SITE</span><h3>Публичный сайт</h3><span class="who">Гости · серверный рендеринг для SEO</span><span class="rel rel-mvp">MVP</span></header>
+          <ul class="sections">
+            <li><span class="sid">01</span><span>Главная</span></li>
+            <li><span class="sid">02–03</span><span>Каталог и страница психолога</span></li>
+            <li><span class="sid">04–05</span><span>Как это работает, цены и оплата</span></li>
+            <li><span class="sid">06</span><span>13 посадочных по запросам</span></li>
+            <li><span class="sid">07–08</span><span>Статьи психологов</span></li>
+            <li><span class="sid">10–11</span><span>Для компаний, для психологов</span></li>
+            <li><span class="sid">15</span><span>Экстренная помощь</span></li>
+            <li><span class="sid">17</span><span>Документы и согласия</span></li>
+            <li><span class="sid">19–20</span><span>Тесты, сертификаты<span class="rel rel-r2">R2</span></span></li>
+          </ul>
+        </article>
+        <article class="contour">
+          <header><span class="code">WIZ</span><h3>Мастер подбора и записи</h3><span class="who">Путь от запроса до брони за 5–7 минут</span><span class="rel rel-mvp">MVP</span></header>
+          <ul class="sections">
+            <li><span class="sid">01</span><span>Выбор пути: анкета, «Герман», каталог</span></li>
+            <li><span class="sid">02a</span><span>Анкета и подпись согласия кодом</span></li>
+            <li><span class="sid">02b</span><span>Диалог с «Германом»</span></li>
+            <li><span class="sid">03</span><span>Подбор с причинами рекомендации</span></li>
+            <li><span class="sid">04</span><span>Время в поясе клиента</span></li>
+            <li><span class="sid">06</span><span>Карта и согласие на автосписание</span></li>
+            <li><span class="sid">07</span><span>Запись подтверждена</span></li>
+          </ul>
+        </article>
+        <article class="contour">
+          <header><span class="code">CL</span><h3>Кабинет клиента</h3><span class="who">Клиенты и сотрудники компаний</span><span class="rel rel-mvp">MVP</span></header>
+          <ul class="sections">
+            <li><span class="sid">01</span><span>Отметка состояния при входе</span></li>
+            <li><span class="sid">02</span><span>Ближайшая сессия и статус оплаты</span></li>
+            <li><span class="sid">03</span><span>Сессии: перенос, отмена, запрос времени</span></li>
+            <li><span class="sid">04</span><span>Мой психолог и смена</span></li>
+            <li><span class="sid">05</span><span>Рекомендации и задания</span></li>
+            <li><span class="sid">06</span><span>Дневник эмоций</span></li>
+            <li><span class="sid">07–08</span><span>Платежи и чеки, согласия</span></li>
+            <li><span class="sid">13</span><span>Пригласить друга<span class="rel rel-r2">R2</span></span></li>
+          </ul>
+        </article>
+        <article class="contour">
+          <header><span class="code">ROOM</span><h3>Видеокомната</h3><span class="who">Клиент и психолог · без записи</span><span class="rel rel-mvp">MVP</span></header>
+          <ul class="sections">
+            <li><span class="sid">01</span><span>Проверка камеры и микрофона</span></li>
+            <li><span class="sid">02</span><span>Сессия с панелью психолога</span></li>
+            <li><span class="sid">03</span><span>Оценка клиента и итоги психолога</span></li>
+          </ul>
+        </article>
+        <article class="contour">
+          <header><span class="code">PRO</span><h3>Кабинет психолога</h3><span class="who">Кандидаты и психологи · обязательная 2FA</span><span class="rel rel-mvp">MVP</span></header>
+          <ul class="sections">
+            <li><span class="sid">01</span><span>Заявка и этапы отбора</span></li>
+            <li><span class="sid">03</span><span>Расписание, отпуска, запросы клиентов</span></li>
+            <li><span class="sid">04</span><span>Карточка клиента и приватные заметки</span></li>
+            <li><span class="sid">05–06</span><span>Итоги сессий и рекомендации</span></li>
+            <li><span class="sid">07</span><span>Начисления, выплаты, статус НПД</span></li>
+            <li><span class="sid">10</span><span>Статьи с публикацией в Дзене</span></li>
+            <li><span class="sid">11</span><span>База знаний</span></li>
+            <li><span class="sid">12</span><span>Интервизия<span class="rel rel-r2">R2</span></span></li>
+          </ul>
+        </article>
+        <article class="contour">
+          <header><span class="code">ADM</span><h3>Админ-панель</h3><span class="who">7 подролей: от модератора до финансиста</span><span class="rel rel-mvp">MVP</span></header>
+          <ul class="sections">
+            <li><span class="sid">03</span><span>Отбор и качество психологов</span></li>
+            <li><span class="sid">04</span><span>Сессии и спорные случаи</span></li>
+            <li><span class="sid">05</span><span>Справочники, анкета, настройки подбора</span></li>
+            <li><span class="sid">06</span><span>Платежи, чеки, реестр выплат</span></li>
+            <li><span class="sid">09–10</span><span>Модерация и контент</span></li>
+            <li><span class="sid">12</span><span>Поддержка и кризисная очередь</span></li>
+            <li><span class="sid">16–17</span><span>Параметры правил и журнал аудита</span></li>
+          </ul>
+        </article>
+        <article class="contour">
+          <header><span class="code">HR</span><h3>Кабинет HR</h3><span class="who">Компании с корпоративной программой</span><span class="rel rel-r2">R2</span></header>
+          <ul class="sections">
+            <li><span class="sid">02</span><span>Код, приглашения, стоп-лист</span></li>
+            <li><span class="sid">04</span><span>Счета и акты</span></li>
+            <li><span class="sid">05</span><span>Отчёты — только агрегаты</span></li>
+          </ul>
+        </article>
+        <article class="contour">
+          <header><span class="code">WL</span><h3>Кабинет партнёра</h3><span class="who">Сервис на платформе ТЕТА под брендом партнёра</span><span class="rel rel-r3">R3</span></header>
+          <ul class="sections">
+            <li><span class="sid">01</span><span>Бренд и домен</span></li>
+            <li><span class="sid">02</span><span>Свои психологи</span></li>
+            <li><span class="sid">07</span><span>Отчёты и взаиморасчёты</span></li>
+          </ul>
+        </article>
+      </div>
+
+      <h3>Ядро: 32 модуля в 8 группах</h3>
+      <dl class="modules">
+        <div><dt>Доверие и данные</dt><dd><code>AUTH</code><code>CONSENT</code><code>TENANT</code><code>AUDIT</code><code>PROFILE</code></dd></div>
+        <div><dt>Подбор</dt><dd><code>MATCH</code><code>AIBOT</code><code>CATALOG</code></dd></div>
+        <div><dt>Услуга</dt><dd><code>SCHED</code><code>BOOK</code><code>VIDEO</code></dd></div>
+        <div><dt>Сопровождение</dt><dd><code>DIARY</code><code>RECO</code><code>CRM</code></dd></div>
+        <div><dt>Деньги</dt><dd><code>PAY</code><code>PAYOUT</code><code>PROMO</code><code>B2B</code></dd></div>
+        <div><dt>Качество и психологи</dt><dd><code>PSY</code><code>REVIEW</code><code>SUPPORT</code><code>CRISIS</code><code>KB</code><code>COMM</code></dd></div>
+        <div><dt>Контент и рост</dt><dd><code>CONTENT</code><code>CMS</code><code>EVENT</code><code>NOTIF</code><code>ANALYTICS</code></dd></div>
+        <div><dt>Платформа</dt><dd><code>ADMIN</code><code>SEARCH</code><code>FILES</code></dd></div>
+      </dl>
+
+      <div class="principles">
+        <div>
+          <h3>Конфиденциальность заложена в архитектуру</h3>
+          <p class="sub">Сведения о состоянии клиента — особая категория персональных данных</p>
+        </div>
+        <ul>
+          <li><b>Заметки психолога</b><span>видит только автор — ни один администратор к ним не допущен</span></li>
+          <li><b>Дневник эмоций</b><span>психолог видит динамику только с согласия клиента</span></li>
+          <li><b>Кабинет HR</b><span>получает только агрегаты — персональных данных сотрудников в нём нет</span></li>
+          <li><b>Все данные</b><span>хранятся в России; во внешние сервисы темы запросов не уходят</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="session" aria-labelledby="h-session">
+      <div class="section-head">
+        <p class="kicker">Бизнес-правила · BR-PAY, BR-BOOK · время относительно начала сессии T</p>
+        <h2 id="h-session">Одна сессия во времени</h2>
+        <p class="section-lead">Модель оплаты из ТЗ — привязанная карта и списание за 12 часов до встречи. Так она раскладывается на время одной сессии. Все интервалы — параметры, их меняет администратор.</p>
+      </div>
+      <ol class="timeline">
+        <li><span class="t">Запись</span><div class="body"><p class="ev">Подбор, слот удерживается 15 минут</p><p class="det">Email подтверждается кодом — тем же кодом подписывается согласие на сведения о здоровье</p></div></li>
+        <li class="key"><span class="t">Запись</span><div class="body"><p class="ev">Привязка карты и отдельное согласие на автосписание</p><p class="det">На экране — точное время будущего списания. Если до сессии меньше 12 часов, оплата проходит сразу</p></div></li>
+        <li><span class="t">T − 24 ч</span><div class="body"><p class="ev">Напоминание о встрече</p><p class="det">В письме указано, когда спишется стоимость сессии; холд за сутки — опция</p></div></li>
+        <li class="key"><span class="t">T − 12 ч</span><div class="body"><p class="ev">Списание по токену карты и чек «предоплата»</p><p class="det">До этого момента отмена бесплатна</p></div></li>
+        <li class="fail"><span class="t">T − 10…3 ч</span><div class="body"><p class="ev">Если списание не прошло — повторы через 2, 6 и 9 часов</p><p class="det">Клиент получает письмо и баннер в кабинете со ссылкой на замену карты</p></div></li>
+        <li class="fail"><span class="t">T − 2 ч</span><div class="body"><p class="ev">Крайний срок оплаты</p><p class="det">Не оплачено — сессия отменяется, время психолога освобождается</p></div></li>
+        <li><span class="t">T − 10 мин</span><div class="body"><p class="ev">Видеокомната открыта</p><p class="det">Проверка камеры и микрофона; в MVP — с компьютера</p></div></li>
+        <li class="key"><span class="t">T</span><div class="body"><p class="ev">Сессия 50 минут</p><p class="det">Без записи; журнал подключений нужен для разбора спорных случаев</p></div></li>
+        <li><span class="t">T + 50 мин</span><div class="body"><p class="ev">Оценка клиента, чек «полный расчёт», начисление психологу</p><p class="det">Психолог заполняет итоги и рекомендации в течение 24 часов</p></div></li>
+        <li><span class="t">Понедельник</span><div class="body"><p class="ev">Выплата психологу за прошлую неделю</p><p class="det">Перед выплатой проверяется статус самозанятого в ФНС</p></div></li>
+      </ol>
+    </section>
+
+    <section id="roadmap" aria-labelledby="h-roadmap">
+      <div class="section-head">
+        <p class="kicker">Роадмап · вариант B · недели от старта</p>
+        <h2 id="h-roadmap">Роадмап</h2>
+        <p class="section-lead">ТЗ отводит 13 недель. Полный MVP по документации — 24–28 недель при 4–6 разработчиках. За 13–16 недель реалистичен только пилот без «Германа», корпоративных программ и автоматических выплат. Дата старта условная: после утверждения документации.</p>
+      </div>
+
+      <div class="chart-wrap">
+        <div class="gantt" role="img" aria-label="Диаграмма фаз проекта по неделям: подготовка, дизайн, разработка и запуск; запуск около 25-й недели, срок ТЗ — 13 недель">
+          <div></div>
+          <div class="scale" aria-hidden="true">
+            <span class="tick first" style="left:0%">0</span>
+            <span class="tick" style="left:14.29%">4</span>
+            <span class="tick" style="left:28.57%">8</span>
+            <span class="tick" style="left:42.86%">12</span>
+            <span class="tick tz" style="left:46.43%">13 · ТЗ</span>
+            <span class="tick" style="left:57.14%">16</span>
+            <span class="tick" style="left:71.43%">20</span>
+            <span class="tick" style="left:85.71%">24</span>
+            <span class="tick last" style="left:100%">28 нед.</span>
+          </div>
+
+          <div class="group">Подготовка</div><div class="track"></div>
+          <div class="label">Решения P0 и юрист <small>0–6</small></div><div class="track"><span class="bar prep" style="left:0%;width:21.43%"></span></div>
+          <div class="label">Договоры и хостинг <small>0–7</small></div><div class="track"><span class="bar prep" style="left:0%;width:25%"></span></div>
+          <div class="label">Отбор психологов <small>0–21</small></div><div class="track"><span class="bar prep" style="left:0%;width:76.53%"></span></div>
+          <div class="label">Контент и документы <small>2–19</small></div><div class="track"><span class="bar prep" style="left:7.14%;width:61.22%"></span></div>
+
+          <div class="group">Дизайн</div><div class="track"></div>
+          <div class="label">CJM и wireframes <small>0–3</small></div><div class="track"><span class="bar design" style="left:0%;width:10.71%"></span></div>
+          <div class="label">Дизайн-система и макеты <small>3–6</small></div><div class="track"><span class="bar design" style="left:10.71%;width:10.71%"></span></div>
+
+          <div class="group">Разработка</div><div class="track"></div>
+          <div class="label">Фундамент и ядро <small>2–9</small></div><div class="track"><span class="bar build" style="left:7.14%;width:23.47%"></span></div>
+          <div class="label">Деньги <small>9–14</small></div><div class="track"><span class="bar build" style="left:30.61%;width:19.39%"></span></div>
+          <div class="label">Клиентский путь <small>7–16</small></div><div class="track"><span class="bar build" style="left:25%;width:30.61%"></span></div>
+          <div class="label">Психолог и операции <small>9–17</small></div><div class="track"><span class="bar build" style="left:32.14%;width:27.04%"></span></div>
+
+          <div class="group">Запуск</div><div class="track"></div>
+          <div class="label">Стабилизация и пентест <small>17–20</small></div><div class="track"><span class="bar launch" style="left:59.18%;width:12.76%"></span></div>
+          <div class="label">Закрытый пилот <small>20–24</small></div><div class="track"><span class="bar launch" style="left:71.94%;width:12.76%"></span></div>
+          <div class="label">Запуск и миграция <small>24–25</small></div><div class="track"><span class="bar launch" style="left:84.69%;width:5.1%"></span></div>
+        </div>
+      </div>
+      <div class="legend" aria-hidden="true">
+        <span><i style="background:var(--bar-prep)"></i>Подготовка</span>
+        <span><i style="background:var(--bar-design)"></i>Дизайн</span>
+        <span><i style="background:var(--bar-build)"></i>Разработка</span>
+        <span><i style="background:var(--bar-launch)"></i>Запуск</span>
+        <span><i class="tz"></i>Срок по ТЗ — 13 недель</span>
+      </div>
+
+      <div class="releases">
+        <div class="release">
+          <header><span class="rel rel-mvp">MVP</span><span>≈25 недель</span></header>
+          <ul>
+            <li>Сайт, мастер записи, кабинеты клиента и психолога</li>
+            <li>Видеосессии с компьютера</li>
+            <li>Дневник эмоций и рекомендации</li>
+            <li>Оплата, чеки, еженедельные выплаты</li>
+            <li>Админ-панель и базовые корпоративные программы</li>
+          </ul>
+        </div>
+        <div class="release">
+          <header><span class="rel rel-r2">R2</span><span>+10–12 недель</span></header>
+          <ul>
+            <li>Кабинет HR и корпоративные вебинары</li>
+            <li>Интервизия психологов</li>
+            <li>Рефералка, сертификаты, тесты</li>
+            <li>Мобильное видео, Telegram и push</li>
+            <li>Вход через Яндекс ID и VK ID</li>
+          </ul>
+        </div>
+        <div class="release">
+          <header><span class="rel rel-r3">R3</span><span>6+ месяцев</span></header>
+          <ul>
+            <li>Кабинет партнёра white-label</li>
+            <li>Групповые форматы</li>
+            <li>Apple Health и Health Connect</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="risks" aria-labelledby="h-risks">
+      <div class="section-head">
+        <p class="kicker">Реестр рисков · 4 критических из 28</p>
+        <h2 id="h-risks">Критические риски</h2>
+      </div>
+      <ul class="risks">
+        <li class="risk"><span class="qid">RISK-02</span><div class="text"><p class="what">Объём ТЗ и брифа не помещается в 13 недель</p><p class="how">Утвердить состав MVP и вариант плана; модули второго и третьего релизов включать флагами функций.</p></div><span class="sev">Критический</span></li>
+        <li class="risk"><span class="qid">RISK-05</span><div class="text"><p class="what">К запуску не хватит психологов и вечерних слотов</p><p class="how">Сейчас в каталоге teta.su 11 психологов, свободное время 11 сентября было у трёх. Отбор нужно начинать параллельно разработке.</p></div><span class="sev">Критический</span></li>
+        <li class="risk"><span class="qid">RISK-25</span><div class="text"><p class="what">Ожидания по мобильной версии расходятся</p><p class="how">Бриф ограничивает видео компьютером, ТЗ говорит о PWA. Ответ на Q-01 нужен до начала дизайна.</p></div><span class="sev">Критический</span></li>
+        <li class="risk"><span class="qid">RISK-28</span><div class="text"><p class="what">Согласие на сведения о здоровье может быть признано ненадлежащим</p><p class="how">Решение юриста по форме подписи и паспортным данным (Q-34); доказательства подписания хранятся с первого дня.</p></div><span class="sev">Критический</span></li>
+      </ul>
+    </section>
+
+    <section id="package" aria-labelledby="h-package">
+      <div class="section-head">
+        <p class="kicker">Файлы проекта</p>
+        <h2 id="h-package">Состав пакета</h2>
+        <p class="section-lead">Имена папок и файлов — латиницей, содержание — на русском. Начинать чтение с <code>docs/README.md</code>.</p>
+      </div>
+      <div class="package">
+        <ul class="tree">
+          <li><span class="path">00_plan/</span><span class="what">План работ и эта страница</span></li>
+          <li><span class="path">01_inputs/</span><span class="what">Сводка брифа, ТЗ, ДНК и фирстиля; 41 открытый вопрос с рекомендациями</span></li>
+          <li><span class="path">02_competitor_analysis/</span><span class="what">Продуктовый анализ «Ясно», разбор 45 экранов, аудит teta.su и прототипа, матрица функций в Excel</span></li>
+          <li><span class="path">03_product/</span><span class="what">Все блоки и разделы платформы, 8 персон и 12 сценариев, матрица прав и бэклог в Excel</span></li>
+          <li><span class="path">04_project_docs/</span><span class="what">Концепция, 426 FR, 114 бизнес-правил, 175 NFR, 192 требования к интеграциям, 45 норм юридического контура, 70 уведомлений, 31 метрика, роадмап, 28 рисков, глоссарий, сводный DOCX</span></li>
+          <li><span class="path">05_mindmap/</span><span class="what">Карта платформы на 383 узла: HTML, FreeMind, OPML, Mermaid</span></li>
+          <li><span class="path">06_architecture/</span><span class="what">Продуктовая и техническая архитектура с 22 ADR, модель данных, 13 последовательностей и 12 машин состояний, 61 диаграмма</span></li>
+          <li><span class="path">99_sources/</span><span class="what">Исследования с источниками, скриншоты сайтов и сторов</span></li>
+          <li><span class="path">_tools/</span><span class="what">Проверка ссылок и ID, сборка mindmap</span></li>
+          <li><span class="path">.claude/skills/teta-docs/</span><span class="what">Правила работы с документацией для Claude Code</span></li>
+        </ul>
+        <aside class="aside">
+          <h3>Проверить пакет</h3>
+          <p>Битые ссылки, дубли и неопределённые ID требований, сводка открытых вопросов:</p>
+          <pre>python3 docs/_tools/check_docs.py</pre>
+          <p>Пересобрать mindmap после правок в разделах:</p>
+          <pre>python3 docs/_tools/build_mindmap.py \
+  docs/05_mindmap/teta_mindmap.md</pre>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <footer class="colophon">
+    <span>Набрано Oswald и Onest — кириллической парой, предложенной вместо Staatliches и Alata</span>
+    <span class="swatches" aria-label="Фирменные цвета">Цвета фирстиля <i style="background:#423670"></i><i style="background:#564792"></i><i style="background:#2E254E"></i><i style="background:#6D5CB0"></i></span>
+    <span>Проектная документация ТЕТА · 11.09.2026</span>
+  </footer>
+</div>

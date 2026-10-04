@@ -1,0 +1,4 @@
+- [TETA docs phase, no code](teta-docs-phase-no-code.md) — no platform code until user approves docs (from 2026-09-11)
+- [TETA project inputs](teta-project-inputs.md) — source file locations, NFD path + encoded-PDF gotchas, brand colors/fonts
+- [TETA: full product, no MVP](teta-full-product-no-mvp.md) — organize by TZ stages, never MVP/R2/R3
+- [TETA v2 customer decisions](teta-v2-decisions.md) — stack, TetaMeet, money model, removed tools, privacy, Onest-only

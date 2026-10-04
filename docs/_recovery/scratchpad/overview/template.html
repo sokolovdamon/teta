@@ -1,0 +1,615 @@
+<title>Проектный пакет ТЕТА</title>
+<meta name="description" content="Сводка проектной документации платформы онлайн-психологии ТЕТА, версия 2.1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&display=swap">
+<style>
+  :root {
+    --ground: #F4F4F7;
+    --surface: #FFFFFF;
+    --sunken: #E6E5EC;
+    --ink: #242424;
+    --ink-2: #4A4A4A;
+    --muted: #6E6E6E;
+    --line: #E6E5EC;
+    --line-strong: #CDCADA;
+    --brand: #4D427A;
+    --brand-strong: #3F3664;
+    --accent-soft: #E6E5EC;
+    --chip-ink: #4D427A;
+    --panel: #4D427A;
+    --panel-ink: #FFFFFF;
+    --panel-muted: #CDCADA;
+    --graphite: #4A4A4A;
+    --graphite-ink: #FFFFFF;
+    --grid: #E6E5EC;
+    --bar-design: #AAA4BF;
+    --bar-core: #4D427A;
+    --bar-late: #25203B;
+    --bar-origin: #797979;
+    --marker: #9E3339;
+    --crit: #9E3339;
+    --crit-soft: #F6E6E7;
+    --font: "Onest", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #191527;
+      --surface: #211C33;
+      --sunken: #2B2542;
+      --ink: #F4F4F7;
+      --ink-2: #CDCADA;
+      --muted: #A39DB8;
+      --line: #332C51;
+      --line-strong: #463E66;
+      --brand: #CDCADA;
+      --brand-strong: #F4F4F7;
+      --accent-soft: #332C51;
+      --chip-ink: #E6E5EC;
+      --panel: #332C51;
+      --panel-ink: #F4F4F7;
+      --panel-muted: #CDCADA;
+      --graphite: #313131;
+      --graphite-ink: #F4F4F4;
+      --grid: #2B2542;
+      --bar-design: #5F5783;
+      --bar-core: #AAA4BF;
+      --bar-late: #E6E5EC;
+      --bar-origin: #A8A8A8;
+      --marker: #E58C92;
+      --crit: #E58C92;
+      --crit-soft: #3A2127;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground: #191527;
+    --surface: #211C33;
+    --sunken: #2B2542;
+    --ink: #F4F4F7;
+    --ink-2: #CDCADA;
+    --muted: #A39DB8;
+    --line: #332C51;
+    --line-strong: #463E66;
+    --brand: #CDCADA;
+    --brand-strong: #F4F4F7;
+    --accent-soft: #332C51;
+    --chip-ink: #E6E5EC;
+    --panel: #332C51;
+    --panel-ink: #F4F4F7;
+    --panel-muted: #CDCADA;
+    --graphite: #313131;
+    --graphite-ink: #F4F4F4;
+    --grid: #2B2542;
+    --bar-design: #5F5783;
+    --bar-core: #AAA4BF;
+    --bar-late: #E6E5EC;
+    --bar-origin: #A8A8A8;
+    --marker: #E58C92;
+    --crit: #E58C92;
+    --crit-soft: #3A2127;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+  body { margin: 0; background: var(--ground); color: var(--ink); font-family: var(--font); font-size: 16.5px; line-height: 1.6; }
+  a { color: var(--brand); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+  a:hover { color: var(--brand-strong); }
+  :focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; border-radius: 3px; }
+  code { font-family: var(--font); font-size: .9em; font-weight: 500; color: var(--ink); background: var(--sunken); padding: 1px 6px; border-radius: 4px; }
+  h1, h2, h3 { text-wrap: balance; }
+  p { margin: 0; }
+  .num { font-variant-numeric: tabular-nums; }
+
+  .logo { display: block; height: 46px; width: auto; }
+  .logo-dark { display: none; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .logo-light { display: none; }
+    :root:not([data-theme="light"]) .logo-dark { display: block; }
+  }
+  :root[data-theme="dark"] .logo-light { display: none; }
+  :root[data-theme="dark"] .logo-dark { display: block; }
+
+  .wrap { max-width: 1220px; margin: 0 auto; padding: 36px 28px 72px; display: grid; grid-template-columns: 200px minmax(0, 1fr); column-gap: 56px; row-gap: 48px; }
+
+  .masthead { grid-column: 1 / -1; display: grid; gap: 22px; padding-bottom: 36px; border-bottom: 1px solid var(--line); }
+  .brandline { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .brand-meta { color: var(--muted); font-size: 14px; }
+  .eyebrow, .kicker { font-size: 12px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--brand); }
+  h1 { font-weight: 700; font-size: clamp(34px, 4.8vw, 54px); line-height: 1.06; letter-spacing: -.02em; margin: 0; max-width: 20ch; }
+  .lead { font-size: 19px; line-height: 1.55; color: var(--ink-2); max-width: 64ch; }
+  .scope { display: flex; flex-wrap: wrap; gap: 16px 40px; margin: 4px 0 0; }
+  .scope div { display: grid; gap: 2px; }
+  .scope dt { order: 2; font-size: 13px; color: var(--muted); line-height: 1.3; max-width: 17ch; }
+  .scope dd { order: 1; margin: 0; font-weight: 600; font-size: 34px; line-height: 1; color: var(--brand); font-variant-numeric: tabular-nums; letter-spacing: -.01em; }
+  .status { display: flex; flex-wrap: wrap; gap: 8px 20px; font-size: 14px; color: var(--muted); }
+  .status span { display: inline-flex; align-items: center; gap: 8px; }
+  .status span::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--line-strong); }
+  .status span:first-child::before { background: var(--brand); }
+
+  .index { position: sticky; top: 28px; align-self: start; }
+  .index p { font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+  .index ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+  .index a { display: block; padding: 6px 10px; margin-left: -10px; border-radius: 6px; color: var(--ink-2); text-decoration: none; font-size: 15px; line-height: 1.35; }
+  .index a:hover { background: var(--accent-soft); color: var(--brand-strong); }
+
+  main { display: flex; flex-direction: column; gap: 88px; min-width: 0; }
+  section { display: flex; flex-direction: column; gap: 26px; scroll-margin-top: 24px; min-width: 0; }
+  .section-head { display: grid; gap: 10px; }
+  h2 { font-weight: 600; font-size: 32px; line-height: 1.12; margin: 0; letter-spacing: -.015em; }
+  .section-lead { color: var(--ink-2); max-width: 66ch; }
+  h3 { font-weight: 600; font-size: 18px; line-height: 1.25; margin: 0; }
+  .note { font-size: 14px; color: var(--muted); max-width: 72ch; }
+
+  .dec { display: inline-flex; align-items: center; font-size: 12px; font-weight: 600; letter-spacing: .02em; color: var(--chip-ink); background: var(--accent-soft); padding: 1px 7px; border-radius: 4px; white-space: nowrap; line-height: 1.6; font-variant-numeric: tabular-nums; }
+  .st { display: inline-flex; align-items: center; font-size: 11px; font-weight: 600; letter-spacing: .04em; padding: 1px 7px; border-radius: 999px; white-space: nowrap; line-height: 1.6; border: 1px solid var(--line-strong); color: var(--ink-2); }
+  .st-core { background: var(--panel); border-color: var(--panel); color: var(--panel-ink); }
+  .st-origin { border-style: dashed; color: var(--muted); }
+
+  /* Decisions */
+  .changes { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 40px; border-bottom: 1px solid var(--line); }
+  .change { display: grid; grid-template-columns: 128px minmax(0, 1fr); gap: 4px 18px; padding: 14px 0; border-top: 1px solid var(--line); align-content: start; }
+  .change .topic { font-weight: 600; color: var(--brand); font-size: 15px; line-height: 1.45; }
+  .change .what { color: var(--ink-2); font-size: 15px; line-height: 1.5; }
+  .change .refs { grid-column: 2; display: flex; flex-wrap: wrap; gap: 6px; }
+
+  .questions { list-style: none; margin: 0; padding: 0; border-bottom: 1px solid var(--line); }
+  .question { display: grid; grid-template-columns: 72px minmax(0, 1fr) 200px; gap: 6px 22px; padding: 16px 0; border-top: 1px solid var(--line); }
+  .question .text { display: grid; gap: 4px; }
+  .question .q { font-weight: 600; line-height: 1.4; }
+  .question .rec { color: var(--ink-2); font-size: 15px; line-height: 1.5; }
+  .question .affects { display: flex; flex-wrap: wrap; gap: 6px; align-content: start; justify-content: flex-end; }
+  .qid { font-size: 13px; font-weight: 600; color: var(--chip-ink); background: var(--accent-soft); padding: 2px 8px; border-radius: 4px; justify-self: start; align-self: start; white-space: nowrap; line-height: 1.6; font-variant-numeric: tabular-nums; }
+  .tag { display: inline-flex; font-size: 12px; padding: 1px 8px; border-radius: 999px; border: 1px solid var(--line-strong); color: var(--muted); white-space: nowrap; line-height: 1.6; }
+
+  /* Requests */
+  .groups { display: grid; margin: 0; border-bottom: 1px solid var(--line); }
+  .groups div { display: grid; grid-template-columns: 190px minmax(0, 1fr); gap: 10px 24px; padding: 16px 0; border-top: 1px solid var(--line); align-items: baseline; }
+  .groups dt { font-weight: 600; font-size: 15.5px; line-height: 1.35; }
+  .groups dt small { display: block; font-weight: 400; font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .groups dd { margin: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip { font-size: 14px; line-height: 1.35; padding: 5px 11px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line); color: var(--ink); }
+  .chip.new { background: var(--panel); border-color: var(--panel); color: var(--panel-ink); font-weight: 500; }
+
+  /* Competitor */
+  .facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 26px 32px; margin: 0; }
+  .fact { display: grid; gap: 8px; padding-top: 14px; border-top: 2px solid var(--ink); align-content: start; }
+  .fact dt { font-weight: 600; font-size: 28px; line-height: 1.08; color: var(--brand); font-variant-numeric: tabular-nums; letter-spacing: -.01em; }
+  .fact dd { margin: 0; color: var(--ink-2); font-size: 15px; line-height: 1.5; }
+  .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+  table { width: 100%; border-collapse: collapse; min-width: 640px; }
+  th, td { text-align: left; vertical-align: top; padding: 13px 16px; border-bottom: 1px solid var(--line); font-size: 15px; line-height: 1.45; }
+  tr:last-child td { border-bottom: 0; }
+  th { font-weight: 600; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); background: var(--sunken); }
+  th.teta { color: var(--brand); }
+  td.dim { color: var(--muted); width: 17%; }
+  td.yasno { color: var(--ink-2); width: 36%; }
+
+  /* Board */
+  .board { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; align-items: start; }
+  .contour { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 18px 18px 16px; display: grid; gap: 12px; }
+  .contour header { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 10px; align-items: start; }
+  .contour .code { font-size: 12px; font-weight: 600; letter-spacing: .1em; color: var(--brand); grid-column: 1; }
+  .contour h3 { grid-column: 1; }
+  .contour .who { grid-column: 1; font-size: 13.5px; color: var(--muted); line-height: 1.4; }
+  .contour header .stages { grid-column: 2; grid-row: 1 / span 3; display: flex; flex-wrap: wrap; gap: 4px; justify-content: flex-end; max-width: 150px; }
+  .sections { list-style: none; margin: 0; padding: 12px 0 0; border-top: 1px solid var(--line); display: grid; gap: 5px; }
+  .sections li { display: grid; grid-template-columns: 52px minmax(0, 1fr); gap: 8px; font-size: 14.5px; line-height: 1.4; align-items: baseline; }
+  .sections .sid { font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .sections .st { margin-left: 6px; font-size: 10px; vertical-align: 1px; }
+
+  .modules { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 40px; margin: 0; }
+  .modules div { display: grid; grid-template-columns: 180px minmax(0, 1fr); gap: 12px; padding: 11px 0; border-top: 1px solid var(--line); align-items: baseline; }
+  .modules dt { font-size: 14.5px; color: var(--ink-2); }
+  .modules dd { margin: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+  .modules dd span { font-size: 12px; font-weight: 600; letter-spacing: .03em; padding: 1px 7px; border: 1px solid var(--line-strong); border-radius: 4px; color: var(--ink); background: var(--surface); }
+
+  .principles { background: var(--panel); color: var(--panel-ink); border-radius: 12px; padding: 26px 28px; display: grid; grid-template-columns: 230px minmax(0, 1fr); gap: 18px 36px; }
+  .principles h3 { color: var(--panel-ink); font-size: 22px; }
+  .principles p.sub { color: var(--panel-muted); font-size: 14px; margin-top: 8px; }
+  .principles ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 28px; }
+  .principles li { display: grid; gap: 2px; font-size: 15px; line-height: 1.45; }
+  .principles li b { font-weight: 600; }
+  .principles li span { color: var(--panel-muted); }
+
+  /* Money */
+  .money { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 36px; align-items: start; }
+  .timeline { list-style: none; margin: 0; padding: 0; display: grid; }
+  .timeline li { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 20px; }
+  .timeline .t { font-size: 13.5px; font-weight: 600; color: var(--brand); text-align: right; padding-top: 13px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .timeline .body { position: relative; padding: 11px 0 14px 26px; border-left: 2px solid var(--line); display: grid; gap: 3px; }
+  .timeline .body::before { content: ""; position: absolute; left: -7px; top: 18px; width: 12px; height: 12px; border-radius: 50%; background: var(--ground); border: 2px solid var(--brand); }
+  .timeline li.key .body::before { background: var(--brand); }
+  .timeline li.fail .body::before { border-color: var(--crit); }
+  .timeline .ev { font-weight: 600; line-height: 1.4; }
+  .timeline .det { color: var(--muted); font-size: 14.5px; line-height: 1.5; }
+  .rules { background: var(--graphite); color: var(--graphite-ink); border-radius: 12px; padding: 22px 22px 18px; display: grid; gap: 14px; }
+  .rules h3 { color: var(--graphite-ink); font-size: 18px; }
+  .rules dl { margin: 0; display: grid; gap: 12px; }
+  .rules dl div { display: grid; gap: 2px; padding-top: 12px; border-top: 1px solid rgba(255, 255, 255, .18); }
+  .rules dt { font-weight: 600; font-size: 14.5px; }
+  .rules dd { margin: 0; font-size: 14px; line-height: 1.5; opacity: .82; }
+
+  /* Roadmap */
+  .chart-wrap { overflow-x: auto; }
+  .gantt { position: relative; display: grid; grid-template-columns: 250px minmax(0, 1fr); min-width: 760px; }
+  .gantt .grid-overlay { position: absolute; left: 250px; right: 0; top: 46px; bottom: 0; pointer-events: none; }
+  .gantt .grid-overlay i { position: absolute; top: 0; bottom: 0; border-left: 1px solid var(--grid); }
+  .gantt .grid-overlay i.today { border-left: 1.5px dashed var(--marker); }
+  .legend i.today-key { width: 0; height: 14px; border-left: 1.5px dashed var(--marker); border-radius: 0; }
+  .milestones { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 14px 24px; margin: 0; }
+  .milestones div { display: grid; gap: 2px; padding-top: 10px; border-top: 2px solid var(--brand); align-content: start; }
+  .milestones dt { font-weight: 600; font-variant-numeric: tabular-nums; }
+  .milestones dd { margin: 0; font-size: 14px; line-height: 1.4; color: var(--ink-2); }
+  .gantt .scale { position: relative; height: 46px; border-bottom: 1px solid var(--line-strong); }
+  .gantt .tick { position: absolute; bottom: 7px; font-size: 11.5px; color: var(--muted); transform: translateX(-50%); white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .gantt .tick.first { transform: none; }
+  .gantt .tick.last { transform: translateX(-100%); }
+  .gantt .label { padding: 7px 14px 7px 0; font-size: 14px; line-height: 1.3; display: flex; justify-content: space-between; gap: 10px; align-items: baseline; }
+  .gantt .label small { font-size: 11.5px; color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .gantt .group { padding: 16px 0 4px; font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--brand); }
+  .gantt .track { position: relative; min-height: 30px; }
+  .gantt .bar { position: absolute; top: 9px; height: 13px; border-radius: 3px; }
+  .bar.design { background: var(--bar-design); }
+  .bar.core { background: var(--bar-core); }
+  .bar.late { background: var(--bar-late); }
+  .bar.origin { background: var(--bar-origin); }
+  .legend { display: flex; flex-wrap: wrap; gap: 8px 22px; font-size: 13.5px; color: var(--muted); }
+  .legend span { display: inline-flex; align-items: center; gap: 8px; }
+  .legend i { width: 18px; height: 10px; border-radius: 2px; display: inline-block; }
+
+  /* Risks */
+  .risks { list-style: none; margin: 0; padding: 0; border-bottom: 1px solid var(--line); }
+  .risk { display: grid; grid-template-columns: 96px minmax(0, 1fr) auto; gap: 6px 22px; padding: 16px 0; border-top: 1px solid var(--line); }
+  .risk .text { display: grid; gap: 4px; }
+  .risk .what { font-weight: 600; line-height: 1.4; }
+  .risk .how { color: var(--ink-2); font-size: 15px; line-height: 1.5; }
+  .sev { font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--crit); background: var(--crit-soft); padding: 2px 8px; border-radius: 999px; white-space: nowrap; align-self: start; line-height: 1.6; }
+
+  /* Package */
+  .package { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 36px; align-items: start; }
+  .tree { list-style: none; margin: 0; padding: 0; display: grid; }
+  .tree li { display: grid; grid-template-columns: 210px minmax(0, 1fr); gap: 16px; padding: 10px 0; border-top: 1px solid var(--line); align-items: baseline; }
+  .tree li:first-child { border-top: 0; }
+  .tree .path { font-size: 13.5px; font-weight: 600; color: var(--brand); word-break: break-word; }
+  .tree .what { font-size: 15px; color: var(--ink-2); line-height: 1.5; }
+  .aside { display: grid; gap: 14px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 20px; }
+  .aside p { font-size: 14.5px; color: var(--ink-2); line-height: 1.5; }
+  pre { margin: 0; padding: 12px 14px; background: var(--sunken); border-radius: 6px; overflow-x: auto; font-family: var(--font); font-size: 13px; line-height: 1.55; color: var(--ink); }
+
+  footer.colophon { grid-column: 1 / -1; border-top: 1px solid var(--line); padding-top: 22px; display: flex; flex-wrap: wrap; gap: 8px 28px; color: var(--muted); font-size: 13.5px; align-items: center; }
+  .swatches { display: inline-flex; gap: 6px; align-items: center; }
+  .swatches i { width: 14px; height: 14px; border-radius: 3px; display: inline-block; border: 1px solid var(--line-strong); }
+
+  @media (max-width: 1080px) {
+    .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .principles { grid-template-columns: 1fr; }
+    .package, .money { grid-template-columns: 1fr; }
+    .changes { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 980px) {
+    .wrap { grid-template-columns: minmax(0, 1fr); column-gap: 0; row-gap: 32px; padding: 28px 20px 56px; }
+    .index { position: static; }
+    .index ul { display: flex; flex-wrap: wrap; gap: 4px 6px; }
+    .index a { margin-left: 0; border: 1px solid var(--line); font-size: 14px; }
+    main { gap: 72px; }
+    .question { grid-template-columns: 64px minmax(0, 1fr); }
+    .question .affects { grid-column: 2; justify-content: flex-start; }
+    .board, .modules { grid-template-columns: 1fr; }
+    .risk { grid-template-columns: 84px minmax(0, 1fr); }
+    .risk .sev { grid-column: 2; justify-self: start; }
+  }
+  @media (max-width: 620px) {
+    body { font-size: 16px; }
+    h2 { font-size: 27px; }
+    .facts { grid-template-columns: 1fr; }
+    .principles ul { grid-template-columns: 1fr; }
+    .change { grid-template-columns: 1fr; }
+    .change .refs { grid-column: 1; }
+    .groups div { grid-template-columns: 1fr; }
+    .timeline li { grid-template-columns: 78px minmax(0, 1fr); gap: 12px; }
+    .timeline .t { font-size: 12px; }
+    .modules div { grid-template-columns: 1fr; gap: 6px; }
+    .tree li { grid-template-columns: 1fr; gap: 2px; }
+    .contour header { grid-template-columns: 1fr; }
+    .contour header .stages { grid-column: 1; grid-row: auto; justify-content: flex-start; max-width: none; }
+  }
+</style>
+
+<div class="wrap">
+  <header class="masthead">
+    <div class="brandline">
+      <img class="logo logo-light" src="data:image/png;base64,{{LOGO_BLACK}}" alt="ТЕТА" width="105" height="46">
+      <img class="logo logo-dark" src="data:image/png;base64,{{LOGO_WHITE}}" alt="ТЕТА" width="105" height="46">
+      <span class="brand-meta">Портал психологической помощи · teta.su</span>
+    </div>
+    <p class="eyebrow">Проектная документация · версия 2.1 · на утверждение</p>
+    <h1>Платформа онлайн-психологии ТЕТА</h1>
+    <p class="lead">Полный состав продукта по этапам ТЗ v2 с решениями заказчика от 11 сентября 2026 года: какие разделы будут у сайта и кабинетов, как работают деньги и супервизия, что осталось решить. Код платформы пишется после утверждения документации.</p>
+    <dl class="scope">
+      <div><dt>решений заказчика в реестре</dt><dd>58</dd></div>
+      <div><dt>открытых вопросов, без блокеров</dt><dd>6</dd></div>
+      <div><dt>модуля ядра за 8 контурами</dt><dd>34</dd></div>
+      <div><dt>раздела интерфейса с ID</dt><dd>116</dd></div>
+      <div><dt>запроса клиентов с посадочными</dt><dd>43</dd></div>
+      {{SCOPE_EXTRA}}
+    </dl>
+    <div class="status">
+      <span>Версия 2.1 от 11.09.2026</span>
+      <span>Полный продукт по этапам ТЗ</span>
+      <span>Папка проекта <code>docs/</code></span>
+    </div>
+  </header>
+
+  <nav class="index" aria-label="Разделы страницы">
+    <p>На странице</p>
+    <ul>
+      <li><a href="#changes">Решения v2</a></li>
+      <li><a href="#questions">Открытые вопросы</a></li>
+      <li><a href="#requests">Запросы клиентов</a></li>
+      <li><a href="#yasno">«Ясно» и ТЕТА</a></li>
+      <li><a href="#platform">Устройство платформы</a></li>
+      <li><a href="#money">Деньги и сессия</a></li>
+      <li><a href="#roadmap">Этапы ТЗ</a></li>
+      <li><a href="#risks">Риски</a></li>
+      <li><a href="#package">Состав пакета</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <section id="changes" aria-labelledby="h-changes">
+      <div class="section-head">
+        <p class="kicker">Реестр решений · DEC-01…DEC-58</p>
+        <h2 id="h-changes">Что решено в версии 2</h2>
+        <p class="section-lead">Указания заказчика, ответы на вопросы и ТЗ v2 собраны в один реестр. Он приоритетнее любого документа пакета: если текст расходится с реестром, прав реестр.</p>
+      </div>
+      <ul class="changes">
+        <li class="change"><span class="topic">Продукт</span><p class="what">Описан целиком и разложен по этапам ТЗ. Функции сверх текста ТЗ и направления п. 11.1 заказчик учёл в объёме работ.</p><span class="refs"><span class="dec">DEC-01</span><span class="dec">DEC-39</span></span></li>
+        <li class="change"><span class="topic">Стек и серверы</span><p class="what">Laravel 13, Next.js 16 с PWA, PostgreSQL 18, Redis. Окружения dev, stage и prod — на VDS Timeweb в России.</p><span class="refs"><span class="dec">DEC-06</span><span class="dec">DEC-36</span></span></li>
+        <li class="change"><span class="topic">Видеосвязь</span><p class="what">TetaMeet: полноценный видеозвонок с компьютера и телефона, групповые встречи для супервизии и интервизии. Без записи и без режима «только звук».</p><span class="refs"><span class="dec">DEC-07</span><span class="dec">DEC-08</span></span></li>
+        <li class="change"><span class="topic">Подбор</span><p class="what">Анкета «Запросы и состояния» без скрининга или бот Герман. Главная рекомендация и все подходящие альтернативы, причины — текстом.</p><span class="refs"><span class="dec">DEC-13</span><span class="dec">DEC-14</span><span class="dec">DEC-15</span></span></li>
+        <li class="change"><span class="topic">Бот Герман</span><p class="what">Российская или локальная открытая модель на российских серверах. Администратор дежурит с 10:00 до 20:00 МСК и берёт только сложные случаи: неявку психолога, возврат денег.</p><span class="refs"><span class="dec">DEC-54</span></span></li>
+        <li class="change"><span class="topic">Деньги психолога</span><p class="what">ИП Иващенко на УСН — агрегатор, психологи — самозанятые. Комиссия 30 %, баланс за вычетом комиссии, выплаты раз в неделю. Скидки по промокодам — за счёт платформы.</p><span class="refs"><span class="dec">DEC-20</span><span class="dec">DEC-50</span><span class="dec">DEC-57</span></span></li>
+        <li class="change"><span class="topic">Супервизия</span><p class="what">Одна оплаченная супервизия в календарном месяце открывает вывод денег. Без неё профиль скрывается из поиска, новые записи закрыты до активации.</p><span class="refs"><span class="dec">DEC-21</span><span class="dec">DEC-37</span></span></li>
+        <li class="change"><span class="topic">Оплата клиента</span><p class="what">Карта привязывается один раз, списание — за 12 часов. Сменил психолога — оплата отменённых сессий возвращается на баланс кабинета.</p><span class="refs"><span class="dec">DEC-23</span><span class="dec">DEC-48</span><span class="dec">DEC-56</span></span></li>
+        <li class="change"><span class="topic">Платёжный сервис</span><p class="what">Выбирается после реализации остальных модулей. До этого деньги работают через абстракцию и тестовый эмулятор.</p><span class="refs"><span class="dec">DEC-38</span></span></li>
+        <li class="change"><span class="topic">Отзывы</span><p class="what">Только после проведённой сессии и с обязательной галочкой согласия на публикацию. Администратор печатает согласия. Рейтингов и ответов психолога нет.</p><span class="refs"><span class="dec">DEC-17</span><span class="dec">DEC-40</span></span></li>
+        <li class="change"><span class="topic">Коммуникации</span><p class="what">Собственные email-рассылки и почтовый сервер, собственный виджет техподдержки. Jivo, DashaMail, iCal, соцвходы и 2FA не используются.</p><span class="refs"><span class="dec">DEC-09</span><span class="dec">DEC-29</span><span class="dec">DEC-51</span></span></li>
+        <li class="change"><span class="topic">White-label</span><p class="what">Каждому партнёру — отдельный инстанс платформы на отдельном сервере со своими психологами и доменом. Кабинета партнёра нет.</p><span class="refs"><span class="dec">DEC-52</span></span></li>
+        <li class="change"><span class="topic">Компании</span><p class="what">Сотрудник принимает условия программы, и компания получает его email и число сессий. Клиенты — с 18 лет.</p><span class="refs"><span class="dec">DEC-25</span><span class="dec">DEC-49</span><span class="dec">DEC-53</span></span></li>
+        <li class="change"><span class="topic">Бренд</span><p class="what">Только шрифт Onest, графитовый и фиолетовый цвета с оттенками, логотип — только файлы заказчика. Эта страница оформлена по этим правилам.</p><span class="refs"><span class="dec">DEC-02</span><span class="dec">DEC-03</span><span class="dec">DEC-04</span></span></li>
+      </ul>
+    </section>
+
+    <section id="questions" aria-labelledby="h-questions">
+      <div class="section-head">
+        <p class="kicker">Реестр вопросов · 49 решено или снято</p>
+        <h2 id="h-questions">Что осталось решить</h2>
+        <p class="section-lead">Блокирующих вопросов нет. Шесть оставшихся нужны до разработки соответствующих модулей; до ответа документация следует рекомендации и помечает её как допущение.</p>
+      </div>
+      <ul class="questions">
+        <li class="question"><span class="qid">Q-43</span><div class="text"><p class="q">Какой платёжный сервис подключаем</p><p class="rec">Нужен сервис, где в одном договоре эквайринг с токенами и списаниями без участия плательщика, возвраты, касса с агентскими реквизитами и выплаты самозанятым.</p></div><div class="affects"><span class="tag">Этап подключения</span></div></li>
+        <li class="question"><span class="qid">Q-52</span><div class="text"><p class="q">Как устроен баланс кабинета клиента</p><p class="rec">Все возвраты зачисляются на баланс, при оплате он расходуется первым. Остаток возвращается на карту по заявке клиента — это право потребителя.</p></div><div class="affects"><span class="tag">Платежи</span><span class="tag">Право</span></div></li>
+        <li class="question"><span class="qid">Q-53</span><div class="text"><p class="q">Нужна ли ежемесячная супервизия самим супервизорам</p><p class="rec">Да, если супервизор ведёт клиентов, — у другого супервизора. Если не ведёт, требование к нему не применяется.</p></div><div class="affects"><span class="tag">Супервизия</span></div></li>
+        <li class="question"><span class="qid">Q-54</span><div class="text"><p class="q">Как второй участник парной сессии попадает на встречу</p><p class="rec">По приглашению на email: партнёр регистрируется сам, принимает согласие на обработку данных и входит со своей учётной записью.</p></div><div class="affects"><span class="tag">Запись</span><span class="tag">TetaMeet</span></div></li>
+        <li class="question"><span class="qid">Q-55</span><div class="text"><p class="q">На каком адресе запускается платформа</p><p class="rec">Разработка и приёмка — на stage; при запуске teta.su переключается на новую платформу. До запуска решить, нужен ли редирект популярных страниц текущего сайта.</p></div><div class="affects"><span class="tag">Запуск</span><span class="tag">SEO</span></div></li>
+        <li class="question"><span class="qid">Q-56</span><div class="text"><p class="q">Получает ли психолог оплату при неявке клиента и отмене после списания</p><p class="rec">Да, 70 %, как за проведённую сессию: время специалиста было зарезервировано. Если по жалобе деньги вернули клиенту, начисление сторнируется.</p></div><div class="affects"><span class="tag">Выплаты</span></div></li>
+      </ul>
+    </section>
+
+    <section id="requests" aria-labelledby="h-requests">
+      <div class="section-head">
+        <p class="kicker">Каталог запросов · 43 в 5 группах</p>
+        <h2 id="h-requests">С чем приходят клиенты</h2>
+        <p class="section-lead">Запросы взяты из фильтров «Ясно» и дополнены запросом «Не могу найти партнёра». На главной они собраны в карусель, у каждого есть посадочная страница <code>/help/…</code>, а в анкете они образуют шаг «Запросы и состояния».</p>
+      </div>
+      <dl class="groups">
+        <div><dt>Моё состояние<small>16 запросов</small></dt><dd><span class="chip">Стресс</span><span class="chip">Упадок сил</span><span class="chip">Нестабильная самооценка</span><span class="chip">Приступы страха и тревоги</span><span class="chip">Перепады настроения</span><span class="chip">Раздражительность</span><span class="chip">Ощущение одиночества</span><span class="chip">СДВГ</span><span class="chip">Тяжёлое эмоциональное состояние</span><span class="chip">Эмоциональная зависимость</span><span class="chip">Панические атаки</span><span class="chip">Навязчивые мысли о здоровье</span><span class="chip">Проблемы с концентрацией</span><span class="chip">Расстройство пищевого поведения</span><span class="chip">Проблемы со сном</span><span class="chip">Сложности с алкоголем и наркотиками</span></dd></div>
+        <div><dt>Отношения<small>7 запросов</small></dt><dd><span class="chip">С партнёром</span><span class="chip">В целом, с окружающими</span><span class="chip">С родителями</span><span class="chip">С детьми</span><span class="chip">Сексуальные</span><span class="chip">Сложности с ориентацией, её поиск</span><span class="chip new">Не могу найти партнёра</span></dd></div>
+        <div><dt>Работа, учёба<small>6 запросов</small></dt><dd><span class="chip">Недостаток мотивации</span><span class="chip">Выгорание</span><span class="chip">«Не знаю, чем хочу заниматься»</span><span class="chip">Прокрастинация</span><span class="chip">Отсутствие цели</span><span class="chip">Смена, потеря работы</span></dd></div>
+        <div><dt>События в жизни<small>7 запросов</small></dt><dd><span class="chip">Переезд, эмиграция</span><span class="chip">Беременность, рождение ребёнка</span><span class="chip">Разрыв отношений, развод</span><span class="chip">Финансовые изменения</span><span class="chip">Утрата близкого человека</span><span class="chip">Болезнь, своя или близких</span><span class="chip">Насилие</span></dd></div>
+        <div><dt>Для пары<small>7 запросов · сессия 90 минут</small></dt><dd><span class="chip">Рождение детей</span><span class="chip">Измена</span><span class="chip">Развод</span><span class="chip">Сложности в отношениях</span><span class="chip">Созависимость</span><span class="chip">Сексуальные отношения</span><span class="chip">Детско-родительские отношения (18+)</span></dd></div>
+      </dl>
+    </section>
+
+    <section id="yasno" aria-labelledby="h-yasno">
+      <div class="section-head">
+        <p class="kicker">Конкурентный анализ · 45 экранов, ≈75 страниц, сторы и отзывы</p>
+        <h2 id="h-yasno">«Ясно» и ТЕТА</h2>
+        <p class="section-lead">Лидер рынка силён подбором и масштабом, но его продукт заканчивается на видеосессии. ТЕТА делает ставку на подтверждённую квалификацию, постоянную супервизию и сопровождение между встречами.</p>
+      </div>
+      <dl class="facts">
+        <div class="fact"><dt>≈35 %</dt><dd>доля рынка онлайн-психологии по оценке самого сервиса; 4 100–4 800 психологов</dd></div>
+        <div class="fact"><dt>−89 %</dt><dd>падение чистой прибыли в 2025 году при выручке ≈1,1 млрд ₽; с ноября 2025-го — новый владелец</dd></div>
+        <div class="fact"><dt>0</dt><dd>инструментов между сессиями: ни дневника, ни заданий, ни AI-поддержки</dd></div>
+        <div class="fact"><dt>12 часов</dt><dd>правило автосписания без возврата — второй по частоте повод для негативных отзывов</dd></div>
+        <div class="fact"><dt>3 150–13 490 ₽</dt><dd>цена сессии по грейдам; психолог на старте получает около 2 000 ₽</dd></div>
+        <div class="fact"><dt>4 группы</dt><dd>фильтров по запросам в каталоге; ТЕТА берёт их целиком и добавляет пары и поиск партнёра</dd></div>
+      </dl>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th scope="col">Что сравниваем</th><th scope="col">«Ясно»</th><th scope="col" class="teta">ТЕТА</th></tr></thead>
+          <tbody>
+            <tr><td class="dim">Специалисты</td><td class="yasno">Масштаб: тысячи психологов, грейды по стажу</td><td>Только дипломированные: дипломы проверяет администратор, без ежемесячной супервизии профиль скрыт</td></tr>
+            <tr><td class="dim">Подбор</td><td class="yasno">Короткая подборка и индекс соответствия «9.9 из 10»</td><td>Главная рекомендация и все подходящие альтернативы; причины простым текстом; бот Герман</td></tr>
+            <tr><td class="dim">Между сессиями</td><td class="yasno">Переписка с психологом</td><td>Без переписки: дневник эмоций и рекомендации психолога</td></tr>
+            <tr><td class="dim">Оплата и отмена</td><td class="yasno">Правила списания спрятаны в FAQ</td><td>То же правило 12 часов, но время списания — на экране записи; перенос после списания и жалоба с ответом за 14 рабочих дней</td></tr>
+            <tr><td class="dim">Цена и доход психолога</td><td class="yasno">Грейды платформы, психолог получает фиксированную сумму</td><td>Психолог сам задаёт цену — «до 3 500 ₽», «3 500–5 500 ₽», «от 5 500 ₽» — и получает 70 %</td></tr>
+            <tr><td class="dim">Корпоративным клиентам</td><td class="yasno">HR получает email и число сессий сотрудника</td><td>Так же, но только после того, как сотрудник принял условия программы</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="platform" aria-labelledby="h-platform">
+      <div class="section-head">
+        <p class="kicker">Архитектура продукта · 116 разделов с ID</p>
+        <h2 id="h-platform">Устройство платформы</h2>
+        <p class="section-lead">Восемь контуров работают через одно ядро. ID разделов одинаковы в требованиях, бэклоге и макетах; у каждого раздела указан этап ТЗ. Полный перечень с блоками и полями — в <code>teta_platform_blocks.md</code>.</p>
+      </div>
+
+      <div class="board">
+        <article class="contour">
+          <header><span class="code">SITE</span><h3>Публичный сайт</h3><span class="who">Гости · серверный рендеринг для SEO</span><span class="stages"><span class="st st-core">Э1</span><span class="st st-core">Ядро</span></span></header>
+          <ul class="sections">
+            <li><span class="sid">01</span><span>Главная: «Только дипломированные специалисты», карусель запросов</span></li>
+            <li><span class="sid">02–03</span><span>Каталог и страница психолога с видеовизиткой</span></li>
+            <li><span class="sid">05</span><span>Цены: три ценовые категории, правила отмены</span></li>
+            <li><span class="sid">06</span><span>43 посадочные по запросам<span class="st st-origin">Доп.</span></span></li>
+            <li><span class="sid">07–08</span><span>Статьи психологов</span></li>
+            <li><span class="sid">15</span><span>Экстренная помощь<span class="st st-origin">Доп.</span></span></li>
+            <li><span class="sid">17</span><span>Документы, согласие на публикацию отзыва</span></li>
+            <li><span class="sid">19–20</span><span>Тесты, подарочные сертификаты</span></li>
+          </ul>
+        </article>
+        <article class="contour">
+          <header><span class="code">WIZ</span><h3>Мастер подбора и записи</h3><span class="who">От запроса до брони с привязанной картой</span><span class="stages"><span class="st st-core">Э3</span></span></header>
+          <ul class="sections">
+            <li><span class="sid">01</span><span>Выбор пути: анкета, Герман или каталог</span></li>
+            <li><span class="sid">02a</span><span>Анкета: формат, запросы и состояния, подходы, цена, время</span></li>
+            <li><span class="sid">02b</span><span>Диалог с ботом Германом</span></li>
+            <li><span class="sid">03</span><span>Главная рекомендация и все альтернативы</span></li>
+            <li><span class="sid">05</span><span>Регистрация по email и паролю</span></li>
+            <li><span class="sid">06</span><span>Привязка карты и автосписание</span></li>
+            <li><span class="sid">07</span><span>Письмо с днём, временем и входом в кабинет</span></li>
+          </ul>
+        </article>
+        <article class="contour">
+          <header><span class="code">CL</span><h3>Кабинет клиента</h3><span class="who">Клиенты и сотрудники компаний, 18+</span><span class="stages"><span class="st st-core">Э3</span></span></header>
+          <ul class="sections">
+            <li><span class="sid">01</span><span>Отметка состояния при входе</span></li>
+            <li><span class="sid">03</span><span>Сессии: перенос, отмена, запрос времени</span></li>
+            <li><span class="sid">04</span><span>Мой психолог: смена и повторная анкета</span></li>
+            <li><span class="sid">05–06</span><span>Рекомендации и дневник эмоций</span></li>
+            <li><span class="sid">07</span><span>Баланс, карта, промокоды, сертификаты</span></li>
+            <li><span class="sid">10</span><span>Отзыв с согласием на публикацию</span></li>
+            <li><span class="sid">12</span><span>Чат: Герман и техподдержка</span></li>
+            <li><span class="sid">13</span><span>Пригласить друга<span class="st st-origin">Доп.</span></span></li>
+          </ul>
+        </article>
+        <article class="contour">
+          <header><span class="code">ROOM</span><h3>Видеосвязь TetaMeet</h3><span class="who">Компьютер и телефон · без записи</span><span class="stages"><span class="st st-core">Э3</span><span class="st st-core">Э5</span><span class="st st-core">Э6</span></span></header>
+          <ul class="sections">
+            <li><span class="sid">01</span><span>Проверка камеры и микрофона</span></li>
+            <li><span class="sid">02</span><span>Комната ожидания и допуск</span></li>
+            <li><span class="sid">03</span><span>Видеосессия с чатом и демонстрацией экрана</span></li>
+            <li><span class="sid">04</span><span>Групповые встречи: супервизия и интервизия</span></li>
+            <li><span class="sid">05</span><span>Фактическая длительность и журнал сессий</span></li>
+          </ul>
+        </article>
+        <article class="contour">
+          <header><span class="code">PRO</span><h3>Кабинет психолога</h3><span class="who">Психологи и супервизоры · строго по этапу 2</span><span class="stages"><span class="st st-core">Э2</span><span class="st st-core">Э5</span><span class="st st-core">Э6</span><span class="st st-core">Э9–11</span></span></header>
+          <ul class="sections">
+            <li><span class="sid">01</span><span>Дипломы, сертификаты и статус проверки</span></li>
+            <li><span class="sid">02–03</span><span>Профиль с подходами и ценой; график и отпуска</span></li>
+            <li><span class="sid">04–05</span><span>Календарь записей; клиенты и приватные заметки</span></li>
+            <li><span class="sid">06–07</span><span>Динамика дневника клиента; рекомендации</span></li>
+            <li><span class="sid">08–09</span><span>Доход, баланс и автовывод на карту</span></li>
+            <li><span class="sid">12–13</span><span>Супервизия и рабочее место супервизора</span></li>
+            <li><span class="sid">14</span><span>Интервизия: сообщество и группы</span></li>
+            <li><span class="sid">15–17</span><span>Статьи с Дзеном, база знаний, поддержка</span></li>
+          </ul>
+        </article>
+        <article class="contour">
+          <header><span class="code">ADM</span><h3>Админ-панель</h3><span class="who">Администратор и супер-администратор · роли в RBAC</span><span class="stages"><span class="st st-core">Э4</span></span></header>
+          <ul class="sections">
+            <li><span class="sid">02–03</span><span>Пользователи, психологи, проверка квалификации</span></li>
+            <li><span class="sid">05</span><span>Матрица «роль — раздел — действие»</span></li>
+            <li><span class="sid">06</span><span>Модерация и печать согласий на отзывы</span></li>
+            <li><span class="sid">07–08</span><span>Финансы, жалобы, выплаты и автовывод</span></li>
+            <li><span class="sid">09–11</span><span>Промокоды, уведомления, email-маркетинг</span></li>
+            <li><span class="sid">15–19</span><span>Супервизия, интервизия, статьи, база знаний, поддержка</span></li>
+            <li><span class="sid">21</span><span>Партнёрские инстансы white-label</span></li>
+            <li><span class="sid">25</span><span>Журнал аудита</span></li>
+          </ul>
+        </article>
+        <article class="contour">
+          <header><span class="code">HR</span><h3>Кабинет HR</h3><span class="who">Компании с корпоративной программой</span><span class="stages"><span class="st st-origin">11.1</span></span></header>
+          <ul class="sections">
+            <li><span class="sid">02</span><span>Сотрудники: email и число сессий</span></li>
+            <li><span class="sid">03</span><span>Условия программы и лимиты</span></li>
+            <li><span class="sid">04</span><span>Счета и акты</span></li>
+            <li><span class="sid">05</span><span>Отчёты и выгрузки</span></li>
+          </ul>
+        </article>
+        <article class="contour">
+          <header><span class="code">X</span><h3>Сквозные сервисы</h3><span class="who">Общие для всех контуров</span><span class="stages"><span class="st st-core">Ядро</span><span class="st">Сквозн.</span></span></header>
+          <ul class="sections">
+            <li><span class="sid">01–02</span><span>Вход по email и паролю, роли и права</span></li>
+            <li><span class="sid">03</span><span>Документы и согласия с версиями</span></li>
+            <li><span class="sid">05–06</span><span>Email-уведомления, виджет чата</span></li>
+            <li><span class="sid">12</span><span>SEO: SSR, sitemap, лента для Дзена</span></li>
+            <li><span class="sid">13</span><span>Дизайн-система: Onest и корпоративные цвета</span></li>
+            <li><span class="sid">14</span><span>White-label: отдельные инстансы</span></li>
+          </ul>
+        </article>
+      </div>
+
+      <h3>Ядро: 34 модуля в 8 группах</h3>
+      <dl class="modules">
+        <div><dt>Доступ и данные</dt><dd><span>AUTH</span><span>RBAC</span><span>CONSENT</span><span>INSTANCE</span><span>AUDIT</span><span>PROFILE</span><span>FILES</span></dd></div>
+        <div><dt>Подбор</dt><dd><span>MATCH</span><span>AIBOT</span><span>CATALOG</span><span>SEARCH</span></dd></div>
+        <div><dt>Услуга</dt><dd><span>PSY</span><span>SCHED</span><span>BOOK</span><span>MEET</span></dd></div>
+        <div><dt>Сопровождение</dt><dd><span>DIARY</span><span>RECO</span><span>CRM</span></dd></div>
+        <div><dt>Деньги</dt><dd><span>PAY</span><span>PAYOUT</span><span>PROMO</span><span>B2B</span></dd></div>
+        <div><dt>Профессиональное развитие</dt><dd><span>SUPERV</span><span>INTERV</span><span>KB</span></dd></div>
+        <div><dt>Контент и коммуникации</dt><dd><span>CONTENT</span><span>CMS</span><span>EVENT</span><span>NOTIF</span><span>MAILING</span><span>SUPPORT</span><span>REVIEW</span></dd></div>
+        <div><dt>Управление</dt><dd><span>ADMIN</span><span>ANALYTICS</span></dd></div>
+      </dl>
+
+      <div class="principles">
+        <div>
+          <h3>Приватность заложена в правила</h3>
+          <p class="sub">Сведения, которые сообщает клиент, — сведения о состоянии; данные хранятся на серверах в России</p>
+        </div>
+        <ul>
+          <li><b>Заметки психолога</b><span>видит только автор; эти права нельзя выдать ни одной роли</span></li>
+          <li><b>Дневник эмоций</b><span>динамику видит только психолог, к которому клиент записан или ходил</span></li>
+          <li><b>Внешние сервисы</b><span>в Яндекс.Метрику не уходят ни запросы, ни ответы анкеты</span></li>
+          <li><b>Компания</b><span>получает email и число сессий сотрудника только после принятия условий</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="money" aria-labelledby="h-money">
+      <div class="section-head">
+        <p class="kicker">Бизнес-правила · время относительно начала сессии T</p>
+        <h2 id="h-money">Одна сессия и путь денег</h2>
+        <p class="section-lead">Клиент один раз привязывает карту, деньги списываются за 12 часов до встречи, психолог получает 70 % цены раз в неделю. Интервалы настраиваются в админ-панели.</p>
+      </div>
+      <div class="money">
+        <ol class="timeline">
+          <li><span class="t">Запись</span><div class="body"><p class="ev">Подбор, выбор времени, регистрация по email и паролю</p><p class="det">Цена психолога попадает в одну из трёх ценовых категорий</p></div></li>
+          <li class="key"><span class="t">Запись</span><div class="body"><p class="ev">Привязка карты и письмо-подтверждение</p><p class="det">В письме — день и время в поясе клиента и ссылка на вход в кабинет; на экране — время будущего списания</p></div></li>
+          <li class="key"><span class="t">T − 12 ч</span><div class="body"><p class="ev">Автосписание и чек «предоплата 100 %»</p><p class="det">Первым расходуется баланс кабинета, затем карта. До этого момента отмена бесплатна</p></div></li>
+          <li class="fail"><span class="t">После списания</span><div class="body"><p class="ev">Отмена — без возврата; перенос — можно</p><p class="det">Новая сессия должна начинаться не раньше чем через 12 часов. Жалобу на списание портал рассматривает 14 рабочих дней</p></div></li>
+          <li><span class="t">T − 10 мин</span><div class="body"><p class="ev">TetaMeet открыт</p><p class="det">Проверка камеры и микрофона, комната ожидания — с компьютера или телефона</p></div></li>
+          <li class="key"><span class="t">T</span><div class="body"><p class="ev">Сессия: 50 минут, для пары — 90</p><p class="det">Без записи; журнал сессий фиксирует фактическую длительность</p></div></li>
+          <li><span class="t">После</span><div class="body"><p class="ev">Начисление психологу — 70 % полной цены</p><p class="det">Скидка по промокоду уменьшает только долю платформы. Психолог прикрепляет рекомендации, клиент может оставить отзыв</p></div></li>
+          <li class="key"><span class="t">Раз в неделю</span><div class="body"><p class="ev">Автовывод на карту самозанятого</p><p class="det">Только если в текущем месяце пройдена и оплачена супервизия; иначе начисления копятся на балансе</p></div></li>
+        </ol>
+        <aside class="rules">
+          <h3>Правило супервизии</h3>
+          <dl>
+            <div><dt>Одна в календарный месяц</dt><dd>Индивидуальная или групповая; интервизия не засчитывается. Для новых психологов — с первого полного месяца после проверки дипломов.</dd></div>
+            <div><dt>Оплата</dt><dd>С баланса кабинета; если его не хватает — вся сумма с привязанной карты. Супервизор получает 70 % стоимости.</dd></div>
+            <div><dt>Если супервизии не было</dt><dd>С начала следующего месяца профиль скрыт из поиска и подбора, новые записи закрыты до активации. Назначенные сессии проводятся и оплачиваются.</dd></div>
+          </dl>
+        </aside>
+      </div>
+    </section>
+
+    {{ROADMAP}}
+
+    {{RISKS}}
+
+    {{PACKAGE}}
+  </main>
+
+  <footer class="colophon">
+    <span>Набрано шрифтом Onest</span>
+    <span class="swatches" aria-label="Корпоративные цвета: графитовый 4A4A4A, фиолетовый 4D427A, белый">Корпоративные цвета <i style="background:#4A4A4A"></i><i style="background:#4D427A"></i><i style="background:#FFFFFF"></i></span>
+    <span>Логотип — файл заказчика</span>
+    <span>Проектная документация ТЕТА · 11.09.2026</span>
+  </footer>
+</div>

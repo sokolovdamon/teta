@@ -1,0 +1,138 @@
+@import "tailwindcss";
+
+/*
+ * TETA design tokens (DEC-02…DEC-04): Onest only, graphite and violet with their shades.
+ * Components use the semantic names below; never hard-code hex values in components.
+ */
+:root {
+  --ground: #f4f4f7;
+  --surface: #ffffff;
+  --sunken: #e6e5ec;
+  --ink: #242424;
+  --ink-2: #4a4a4a;
+  --muted: #6e6e6e;
+  --line: #e6e5ec;
+  --line-strong: #cdcada;
+  --brand: #4d427a;
+  --brand-strong: #3f3664;
+  --brand-soft: #e6e5ec;
+  --brand-tint: #aaa4bf;
+  --brand-deep: #25203b;
+  --on-brand: #ffffff;
+  --graphite: #4a4a4a;
+  --on-graphite: #ffffff;
+  --danger: #9e3339;
+  --danger-soft: #f6e6e7;
+  --success: #2f6b4f;
+  --success-soft: #e3f0e8;
+  --warning: #8a5a12;
+  --warning-soft: #f7ecd9;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ground: #191527;
+    --surface: #211c33;
+    --sunken: #2b2542;
+    --ink: #f4f4f7;
+    --ink-2: #cdcada;
+    --muted: #a39db8;
+    --line: #332c51;
+    --line-strong: #463e66;
+    --brand: #cdcada;
+    --brand-strong: #f4f4f7;
+    --brand-soft: #332c51;
+    --brand-tint: #5f5783;
+    --brand-deep: #e6e5ec;
+    --on-brand: #191527;
+    --graphite: #313131;
+    --on-graphite: #f4f4f4;
+    --danger: #e58c92;
+    --danger-soft: #3a2127;
+    --success: #8fd1ad;
+    --success-soft: #1d3328;
+    --warning: #e8c27a;
+    --warning-soft: #3a2f1a;
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground: #191527;
+  --surface: #211c33;
+  --sunken: #2b2542;
+  --ink: #f4f4f7;
+  --ink-2: #cdcada;
+  --muted: #a39db8;
+  --line: #332c51;
+  --line-strong: #463e66;
+  --brand: #cdcada;
+  --brand-strong: #f4f4f7;
+  --brand-soft: #332c51;
+  --brand-tint: #5f5783;
+  --brand-deep: #e6e5ec;
+  --on-brand: #191527;
+  --graphite: #313131;
+  --on-graphite: #f4f4f4;
+  --danger: #e58c92;
+  --danger-soft: #3a2127;
+  --success: #8fd1ad;
+  --success-soft: #1d3328;
+  --warning: #e8c27a;
+  --warning-soft: #3a2f1a;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-ground: var(--ground);
+  --color-surface: var(--surface);
+  --color-sunken: var(--sunken);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-brand: var(--brand);
+  --color-brand-strong: var(--brand-strong);
+  --color-brand-soft: var(--brand-soft);
+  --color-brand-tint: var(--brand-tint);
+  --color-brand-deep: var(--brand-deep);
+  --color-on-brand: var(--on-brand);
+  --color-graphite: var(--graphite);
+  --color-on-graphite: var(--on-graphite);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --font-sans: "Onest Variable", "Onest", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.55;
+}
+
+:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+.num {
+  font-variant-numeric: tabular-nums;
+}

@@ -1,0 +1,174 @@
+warning: The `fitz` API is deprecated and will be removed in future. Use `import pymupdf` instead.
+=== dnk: 9 pages ===
+--- dnk p1 ---
+͍̈́͊
+ 5D5=44 &ͅ &̀
+Ͷ!ͼ 5D9A84 &ͷ&Ͳ 4 QFB GA<>4?PAO= A45BD Q?9@9AFB6, >BFBDO9 BCD989?SRF 97B <89AF<GABEFP, CD<AF<CO D45BFO < 6;4<@B89=EF6<9 
+E 4G8<FBD<9=. "A EBEFB<F <; A9E>B?P><E >?RG96OE >B@CBA9AFB6:͎
+E=>6=O5 &5==>EF8
+$GA84@9AF4?PAO9 G59:89A<S < 
+CD<AF<CO, >BFBDO9 DG>B6B8SF >4:8O@ 
+89=EF6<9@ < D9H9A<9@ 5D9A84 &ͷ&Ͳ. "A< 
+BFD4:4RF FB, 6B GFB @O 69D<@ < GFB 
+F9A<@ 5B?PH9 6E97B.
+'=8>4?P=>5  D54=47=4G5=85
+ <EE<S < F9?P EGI9EF6B64A<S 5D9A84 
+&ͷ&Ͳ 4 FB, GFB @O EFD9@<@ES 8BEF<GP 8?S 
+A4H<E >?<9AFB6 < @<D4 6 F9?B@. -FB 
+A4H4 86<:GI4S E<?4.
+%4D4>F5D 8 ̓ >?>E
+ͽ<GABEFP 5D9A84 &ͷ&Ͳ 4 >4> BA 
+B5I49FES, >4><9 Q@BF<< 6O;O649F < 
+>4><@ 6BECD<A<@49FES 4G8<FBD<9=. -FB 
+A4H GA<>4?PAO= EF<?P < FBA.
+
+--- dnk p2 ---
+%GFL >><?4=<< &ͅ &̀
+%GFL >B@C4A<< &ͷ&Ͳ 4 MFB BA?4=A-CBDF4? CE<IB?B7<G9E>B= CB@BI<, B5J98<AONI<= MF<GAKI, CDBH9EE<BA4?LAKI CE<IB?B7B6 < 
+>?<9AFB6, >BFBDK9 IBFOF CB?GG<FL >4G9EF69AAGN CB889D:>G 59; ?<HA97B EFD9EE4 < C9D9C?4F. ;K A9 CDBEFB E9D6<E, 4 A489:AK= 
+CDB6B8A<> 6 @<D9 CE<IB?B7<G9E>B7B 5?47BCB?GG<O, 789 >4:8K= E94AE 4 MFB H47 > D9H9A<N CDB5?9@K, 4 A9 CDBEFB D4;7B6BD.
+
+--- dnk p3 ---
+̈́?O >>7> GE?G7<͎
+E=>6=4O 4G8<F>D<O:
+͸9AM<AO 25345 ?9F, ED98A<= < 
+6OL9 ED98A97B 8BIB8 (BF 60 
+FOE. 6 D97<BA4I, BF 150 FOE. 6 
+@974CB?<E4I).
+ G:K<AO 25345 ?9F (15% 
+>?<9AFB6), K4EFB A4IB8SM<9ES 
+;4 7D4A<J9= (Q@<7D4J<S, 
+D9?B>4J<S).
+ͽR8<, 8?S >BFBDOI F9D4C<S 4 
+K4EFP ;45BFO B E959, >4> ECBDF 
+<?< ;8BDB6B9 C<F4A<9.͈
+E 5>?<:
+%FD4I BEG:89A<S, A98B69D<9 > 
+CE<IB?B74@.
+΀C4E9A<S, KFB <I CDB5?9@O A9 
+CB=@GF <?< <AHBD@4J<S 
+EF4A9F CG5?<KAB=.
+ʹOEB><9 J9AO A4 F9D4C<R 6 
+BH?4=A-HBD@4F9.
+
+--- dnk p4 ---
+&5?< >B@C4A<<
+1
+%89;4BP @97C;O@=CN B9@4?8N 8>ABC?=>9
+4 59; C9D9C?4F ;4 4D9A8G >45<A9F4 < 8BDB7G.
+2͎
+59A?9G8BP 6OA>:>9 :4G9AB6>
+4 FB?P>B 1 <; 20 >4A8<84FB6 EF4AB6<FEO CE<EB?B7B@ 
+&ͷ&Ͳ.
+3
+%>784BP 8>69@89
+4 G9D9; CDB;D4GABEFP, QF<GABEFP < 59D9:AO= CB8EB8.
+4
+%B4BP ;889@>< 6 >=;49=-B9@4?88
+4 A9 ;4 EG9F >B?<G9EF64, 4 ;4 EG9F >4G9EF64 >4:8B= 
+>BAEG?PF4F<<.
+
+--- dnk p5 ---
+&5==>EF< >><?4=<<
+-F8GABEFL
+4 A<>4><E A46O;O64A<=, EB69FB6 
+<?< ;4FO7<64A<O F9D4C<<.̈́
+BEFGCABEFL
+4 F9A4, >BFBD4O CB;6B?O9F A9 
+5DBE4FP F9D4C<N A4 CB?CGF<.͊
+BAH845AF84?LABEFL
+4 EFDB7B9 EB5?N89A<9 7D4A<F < 
+4ABA<@ABEF<.
+DBH5EE8BA4?87@
+4 CE<EB?B7< CDBEB8OF :9EF><= BF5BD < D97G?ODAO9 
+EGC9D6<;<<.
+-@C4F8O
+4 @O EB;849@ CDBEFD4AEF6B, 789 >?<9AF GG6EF6G9F E95O 
+CD<AOFO@ < CBAOFO@.
+
+--- dnk p6 ---
+%4D4>F5D 5D5=44
+%?>:>9=O9, =4456=O9, 55@56=O9.
+Caregiver
+(>?5:C=)͌
+G4D5F
+4 A>G5B4=85 745>BO 8 Q:A?5@B87O.
+&BA4?LABEFL
+΁@>D5AA8>=4;P=4O, => B5?;4O 4 557 
+?4D>A4, A 4>:474B5;P=>9 547>9.
+-@BF<O
+'65@5==>ABP 8 557>?4A=>ABP 4 "ʹO 6 
+=4456=OE @C:4E".
+
+--- dnk p7 ---
+'=<>4?L=>9 F>@7>6>9 ?@98?>:9=<9 
+('& )
+«ͼ4G9AB69==4O B9@4?8O 597 ?9@9?;4B 4 A QB8G=O< ?>8E>8>< 8 
+74@4=B899 :>=D889=F84;P=>AB8»
+
+--- dnk p8 ---
+D5<<GM5EF64 &ͅ &̀
+1͎
+A?4=A-HBD@4F
+4 597 B@4B 6@9<9=8 =4 8>@>7C, A9AA88 87 ;N5>9 B>G:8 <8@4.
+2͆
+5EF><= BF5BD CE<IB?B7B6
+4 B>;P:> 5% A?9F84;8AB>6 ?@>E>8OB ?@>69@:C.
+3
+'5EFABEFL
+4 =9 74BO78649< B9@4?8N, @45>B49< 8> @97C;PB4B4.
+4̈́
+BEFGCA4O J5A4
+4 GB>5O :;89=BO <>7;8 7469@H8BP ?@>F9AA, 4 =9 5@>A4BP 87-
+74 AB>8<>AB8.
+
+--- dnk p9 ---
+͎F?<G<5 >F >>=>GD5=F>6
+΀F5BD CE<IB?B7B6
+1 <; 20
+;4EEB6O= A45BD (3000+ CE<IB?B7B6, :4?B5O A4 
+>4K9EF6B)
+-F<KABEFP
+Ϳ9 849@ EB69FB6, A9 ;4FS7<649@ F9D4C<R
+'4EFB >B@@9DK9E><= CB8IB8
+ͶBEFGCABEFP
+&9A4 CB;6B?S9F CDBIB8<FP F9D4C<R D97G?SDAB
+ʹOEB><9 J9AO <?< E>DOFO9 GE?B6<S
+$B>GE
+ͼ4K9EF6B >4:8B= >BAEG?PF4J<<
+ͼB?<K9EF6B >?<9AFB6 < CE<IB?B7B6
+ʹO6>4 &ͷ&Ͳ 4 QFB A9 CDBEFB E9D6<E, 4 59;BC4EAB9 CDBEFD4AEF6B 8?S BEB;A4AAB= F9D4C<<. ;O A9 7BA<@ES ;4 @4EEB6BEFPR, 4 
+B59EC9K<649@ A489:ABEFP, QF<KABEFP < D9;G?PF4F. Ϳ4L4 J9?P 4 KFB5O >?<9AFO A9 5BS?<EP A4K4FP, 8B6B8<?< F9D4C<R 8B >BAJ4 < 
+D9>B@9A8B64?< A4E ;4 K9EFAO= < CDBH9EE<BA4?PAO= CB8IB8.
+
+FONTS dnk: {'BAYIWT+SourceSerifPro-SemiBold', 'MFTAYE+SourceSerifPro-SemiBold', 'OIALSI+SourceSansPro-Regular', 'AHJAJU+SourceSansPro-Regular', 'CLPXLE+SourceSerifPro-SemiBold', 'TKERZY+SourceSansPro-Bold', 'LAFTLJ+SourceSerifPro-SemiBold', 'PKMMTG+SourceSansPro-Regular', 'OMAMPH+SourceSerifPro-SemiBold', 'RZUWHE+SourceSansPro-Regular', 'QROFAK+SourceSerifPro-SemiBold', 'SIGTQC+SourceSerifPro-SemiBold', 'TUWAQI+SourceSansPro-Regular', 'VLBOIE+SourceSansPro-Regular', 'JOOGVF+SourceSerifPro-SemiBold', 'ZTEPSG+SourceSerifPro-SemiBold', 'NFJQXT+SourceSansPro-Regular', 'ZLIEGE+SourceSansPro-Regular', 'LIWKMS+SourceSerifPro-SemiBold', 'XXNFPN+SourceSerifPro-SemiBold', 'WQSDKX+SourceSerifPro-SemiBold', 'VCYFSC+SourceSerifPro-SemiBold', 'HKDUVF+SourceSansPro-Regular', 'CIMZOA+SourceSerifPro-SemiBold'}
+=== style: 4 pages ===
+--- style p1 ---
+Базовые элементы стиля и цвета бренда: 
+Корпоративные цвета:
+Корпоративные шрифты:
+
+--- style p2 ---
+Дизайн и стиль сайта:
+
+--- style p3 ---
+Стиль бренда:
+
+--- style p4 ---
+Корпоративный стиль и сувенирная продукция:
+
+FONTS style: {'MUFUZY+Roboto-Bold'}
+dnk_p01.png
+dnk_p02.png
+dnk_p03.png
+dnk_p04.png
+dnk_p05.png
+dnk_p06.png
+dnk_p07.png
+dnk_p08.png
+dnk_p09.png
+extract.py
+style_p01.png
+style_p02.png
+style_p03.png
+style_p04.png

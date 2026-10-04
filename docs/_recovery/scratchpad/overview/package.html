@@ -1,0 +1,31 @@
+<section id="package" aria-labelledby="h-package">
+      <div class="section-head">
+        <p class="kicker">Файлы проекта · папка docs/</p>
+        <h2 id="h-package">Состав пакета</h2>
+        <p class="section-lead">Имена папок и файлов — латиницей, содержание — на русском. Начинать чтение с <code>docs/README.md</code>, решения заказчика — в <code>01_inputs/decisions_v2.md</code>.</p>
+      </div>
+      <div class="package">
+        <ul class="tree">
+          <li><span class="path">00_plan/</span><span class="what">План работ и доработки v2, эта страница</span></li>
+          <li><span class="path">01_inputs/</span><span class="what">Реестр из 58 решений, ТЗ v2, вопросы: 6 открытых и 49 решённых, сводка входных данных</span></li>
+          <li><span class="path">brand/</span><span class="what">Логотипы заказчика, корпоративные цвета с оттенками, шрифт Onest</span></li>
+          <li><span class="path">02_competitor_analysis/</span><span class="what">Анализ «Ясно» с таксономией запросов, разбор 45 экранов, аудит текущих сайтов, матрица 124 функций</span></li>
+          <li><span class="path">03_product/</span><span class="what">116 разделов платформы, 10 персон и 23 сценария, роли и права по всем разделам, бэклог пользовательских историй</span></li>
+          <li><span class="path">04_project_docs/</span><span class="what">Концепция; 738 функциональных требований; 283 бизнес-правила и 92 параметра; 172 нефункциональных требования; 172 требования к интеграциям; юридический контур; 134 уведомления; 57 метрик; роадмап на 44 спринта; 34 риска; глоссарий; сводный DOCX</span></li>
+          <li><span class="path">05_mindmap/</span><span class="what">Карта платформы на 425 узлов: HTML, FreeMind, OPML, Mermaid</span></li>
+          <li><span class="path">06_architecture/</span><span class="what">Архитектура продукта; техническая архитектура с 23 ADR; модель данных на 212 сущностей; 22 последовательности и 20 машин состояний; карта сайта; 92 диаграммы</span></li>
+          <li><span class="path">99_sources/</span><span class="what">Исследования с источниками, скриншоты сайтов и сторов</span></li>
+          <li><span class="path">_tools/</span><span class="what">Проверка ссылок и ID, сборка mindmap, рендер диаграмм</span></li>
+          <li><span class="path">.claude/skills/teta-docs/</span><span class="what">Правила работы с документацией для Claude Code</span></li>
+        </ul>
+        <aside class="aside">
+          <h3>Проверить пакет</h3>
+          <p>Ссылки, ID требований и решений, сводка открытых вопросов:</p>
+          <pre>python3 docs/_tools/check_docs.py</pre>
+          <p>Пересобрать mindmap и диаграммы после правок:</p>
+          <pre>python3 docs/_tools/build_mindmap.py \
+  docs/05_mindmap/teta_mindmap.md
+docs/_tools/render_diagrams.sh</pre>
+        </aside>
+      </div>
+    </section>
