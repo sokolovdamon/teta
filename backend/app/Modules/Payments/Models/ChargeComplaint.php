@@ -21,7 +21,7 @@ class ChargeComplaint extends Model
 
     protected function casts(): array
     {
-        return ['due_date' => 'date', 'decided_at' => 'datetime'];
+        return ['due_date' => 'date', 'decided_at' => 'datetime', 'messages' => 'array', 'share_percent' => 'float', 'sla_alerted_at' => 'datetime', 'taken_at' => 'datetime', 'withdrawn_at' => 'datetime'];
     }
 
     protected static function transitions(): array
@@ -45,6 +45,11 @@ class ChargeComplaint extends Model
     public function client(): BelongsTo
     {
         return $this->belongsTo(User::class, 'client_id');
+    }
+
+    public function assignee(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'assigned_to');
     }
 
     public function payment(): BelongsTo

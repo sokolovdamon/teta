@@ -21,7 +21,7 @@ class ChargeTask extends Model
 
     protected function casts(): array
     {
-        return ['due_at' => 'datetime', 'deadline_at' => 'datetime', 'next_attempt_at' => 'datetime', 'locked_at' => 'datetime'];
+        return ['due_at' => 'datetime', 'deadline_at' => 'datetime', 'next_attempt_at' => 'datetime', 'locked_at' => 'datetime', 'last_attempt_at' => 'datetime'];
     }
 
     protected static function transitions(): array
@@ -44,6 +44,16 @@ class ChargeTask extends Model
     public function payment(): BelongsTo
     {
         return $this->belongsTo(Payment::class);
+    }
+
+    public function balanceOperation(): BelongsTo
+    {
+        return $this->belongsTo(ClientBalanceOperation::class, 'balance_operation_id');
+    }
+
+    public function payerPayment(): BelongsTo
+    {
+        return $this->belongsTo(Payment::class, 'payer_payment_id');
     }
 
     public function attemptsLog(): HasMany

@@ -19,7 +19,7 @@ class PaymentMethod extends Model
 
     protected function casts(): array
     {
-        return ['is_default' => 'boolean', 'removed_at' => 'datetime'];
+        return ['is_default' => 'boolean', 'removed_at' => 'datetime', 'token' => 'encrypted'];
     }
 
     public function user(): BelongsTo

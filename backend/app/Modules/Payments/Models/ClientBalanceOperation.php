@@ -25,7 +25,7 @@ class ClientBalanceOperation extends Model
 
     protected function casts(): array
     {
-        return ['is_certificate_funds' => 'boolean'];
+        return ['is_certificate_funds' => 'boolean', 'meta' => 'array'];
     }
 
     protected static function transitions(): array
@@ -46,6 +46,11 @@ class ClientBalanceOperation extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function payment(): BelongsTo
+    {
+        return $this->belongsTo(Payment::class);
     }
 
     public function source(): MorphTo

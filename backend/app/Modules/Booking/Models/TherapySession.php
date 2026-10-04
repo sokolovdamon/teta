@@ -5,9 +5,11 @@ namespace App\Modules\Booking\Models;
 use App\Models\User;
 use App\Modules\Corporate\Models\CorporateParticipation;
 use App\Modules\Payments\Models\ChargeTask;
+use App\Modules\Payments\Models\Payment;
 use App\Modules\Promo\Models\PromoCode;
 use App\Modules\Psychologists\Models\Psychologist;
 use App\Support\Database\UtcDates;
+use App\Support\Settings\Settings;
 use App\Support\StateMachine\HasStateMachine;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -65,26 +67,49 @@ class TherapySession extends Model
             'charge_deadline_at' => 'datetime',
             'cancelled_at' => 'datetime',
             'outcome_at' => 'datetime',
+            'client_joined_at' => 'datetime',
+            'psychologist_joined_at' => 'datetime',
+            'choice_deadline_at' => 'datetime',
+            'partner_invited_at' => 'datetime',
+            'partner_accepted_at' => 'datetime',
             'client_request_ids' => 'array',
+            'reminders_sent' => 'array',
             'params' => 'array',
         ];
     }
 
     protected static function transitions(): array
     {
-        return ['status' => [
-            self::BOOKED => [self::BOOKED, self::PAID, self::CANCELLED_BY_CLIENT, self::CANCELLED_BY_PSY, self::CANCELLED_BY_SYSTEM],
-            self::PAID => [self::PAID, self::IN_PROGRESS, self::CANCELLED_BY_CLIENT, self::CANCELLED_BY_PSY, self::CANCELLED_BY_SYSTEM],
-            self::IN_PROGRESS => [self::HELD, self::CLIENT_NO_SHOW, self::PSY_NO_SHOW, self::TECH_ISSUE],
-            // Admin corrects the final outcome by the session log (ADM-04, BR-BOOK-13).
-            self::HELD => [self::CLIENT_NO_SHOW, self::PSY_NO_SHOW, self::TECH_ISSUE],
-            self::CLIENT_NO_SHOW => [self::HELD, self::PSY_NO_SHOW, self::TECH_ISSUE],
-            self::PSY_NO_SHOW => [self::HELD, self::CLIENT_NO_SHOW, self::TECH_ISSUE],
-            self::TECH_ISSUE => [self::HELD, self::CLIENT_NO_SHOW, self::PSY_NO_SHOW],
-            self::CANCELLED_BY_CLIENT => [],
-            self::CANCELLED_BY_PSY => [],
-            self::CANCELLED_BY_SYSTEM => [],
-        ]];
+        return [
+            'status' => [
+                self::BOOKED => [self::BOOKED, self::PAID, self::CANCELLED_BY_CLIENT, self::CANCELLED_BY_PSY, self::CANCELLED_BY_SYSTEM],
+                self::PAID => [self::PAID, self::IN_PROGRESS, self::CANCELLED_BY_CLIENT, self::CANCELLED_BY_PSY, self::CANCELLED_BY_SYSTEM],
+                self::IN_PROGRESS => [self::HELD, self::CLIENT_NO_SHOW, self::PSY_NO_SHOW, self::TECH_ISSUE],
+                // Admin corrects the final outcome by the session log (ADM-04, BR-BOOK-13).
+                self::HELD => [self::CLIENT_NO_SHOW, self::PSY_NO_SHOW, self::TECH_ISSUE],
+                self::CLIENT_NO_SHOW => [self::HELD, self::PSY_NO_SHOW, self::TECH_ISSUE],
+                self::PSY_NO_SHOW => [self::HELD, self::CLIENT_NO_SHOW, self::TECH_ISSUE],
+                self::TECH_ISSUE => [self::HELD, self::CLIENT_NO_SHOW, self::PSY_NO_SHOW],
+                self::CANCELLED_BY_CLIENT => [],
+                self::CANCELLED_BY_PSY => [],
+                self::CANCELLED_BY_SYSTEM => [],
+            ],
+            // Client's choice after a psychologist's cancel / no-show or a technical issue (ST-01, BR-CANC-06):
+            // pending → refund (credit to the cabinet balance) | reschedule (free new paid session);
+            // none — the admin corrected the outcome and no choice is needed any more.
+            'client_choice' => [
+                '' => ['pending'],
+                'pending' => ['refund', 'reschedule', 'none'],
+                'none' => ['pending'],
+            ],
+        ];
+    }
+
+    public function canTransition(string $to, string $field = 'status'): bool
+    {
+        $map = static::transitions()[$field] ?? [];
+
+        return in_array($to, $map[(string) $this->getAttribute($field)] ?? [], true);
     }
 
     public function client(): BelongsTo
@@ -117,6 +142,11 @@ class TherapySession extends Model
         return $this->hasOne(ChargeTask::class);
     }
 
+    public function payment(): BelongsTo
+    {
+        return $this->belongsTo(Payment::class);
+    }
+
     public function rescheduledFrom(): BelongsTo
     {
         return $this->belongsTo(self::class, 'rescheduled_from_id');
@@ -132,9 +162,27 @@ class TherapySession extends Model
         return $this->corporate_participation_id !== null;
     }
 
+    /** A promo code was applied (the discount can only come from a promo code, BR-PROMO-05). */
+    public function hasPromo(): bool
+    {
+        return $this->promo_code_id !== null || (int) $this->discount > 0;
+    }
+
     public function isPaid(): bool
     {
         return $this->paid_at !== null;
+    }
+
+    /** Parameter value in force at booking (rule 5 of sequences_states.md), falling back to the current one. */
+    public function param(string $key): mixed
+    {
+        return ($this->params ?? [])[$key] ?? Settings::get($key);
+    }
+
+    /** Money taken from the client and not yet returned to the balance. */
+    public function retainedAmount(): int
+    {
+        return max(0, (int) $this->amount_charged - (int) $this->balance_refunded);
     }
 
     /** User may take part: the client, the pair partner or the psychologist. */
