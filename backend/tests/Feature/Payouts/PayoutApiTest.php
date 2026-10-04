@@ -66,7 +66,7 @@ class PayoutApiTest extends TestCase
             ->assertJsonPath('data.status', 'succeeded')
             ->assertJsonPath('data.card.purpose', 'payout')
             ->assertJsonPath('data.card.card_mask', '2200 00** **** 0001');
-        $this->assertDatabaseHas('payment_methods', ['user_id' => $p->user_id, 'purpose' => 'payout', 'status' => 'active', 'token' => 'tok_payout_0001']);
+        $this->assertDatabaseHas('payment_methods', ['user_id' => $p->user_id, 'purpose' => 'payout', 'status' => 'active', 'token_hash' => hash('sha256', 'tok_payout_0001')]);
 
         // A new card replaces the old one.
         $this->gateway->card = ['token' => 'tok_payout_0002', 'mask' => '2200 00** **** 0002', 'brand' => 'MIR', 'exp_month' => 1, 'exp_year' => 2031];

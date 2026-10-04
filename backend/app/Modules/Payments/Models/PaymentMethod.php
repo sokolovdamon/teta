@@ -15,11 +15,26 @@ class PaymentMethod extends Model
 
     protected $guarded = ['id'];
 
-    protected $hidden = ['token'];
+    protected $hidden = ['token', 'token_hash'];
+
+    protected static function booted(): void
+    {
+        // The token is encrypted at rest; its hash allows exact lookups (e.g. the same card bound twice).
+        static::saving(function (self $method) {
+            if ($method->isDirty('token')) {
+                $method->token_hash = hash('sha256', (string) $method->token);
+            }
+        });
+    }
+
+    public static function hashToken(string $token): string
+    {
+        return hash('sha256', $token);
+    }
 
     protected function casts(): array
     {
-        return ['is_default' => 'boolean', 'removed_at' => 'datetime'];
+        return ['is_default' => 'boolean', 'removed_at' => 'datetime', 'token' => 'encrypted'];
     }
 
     public function user(): BelongsTo

@@ -99,7 +99,7 @@ class PayoutCardService
             }
 
             // PAY may already have saved the same token from the binding webhook: reuse it as the payout card.
-            $method = PaymentMethod::where('user_id', $binding->user_id)->where('token', $card['token'])->first() ?? new PaymentMethod;
+            $method = PaymentMethod::where('user_id', $binding->user_id)->where('token_hash', PaymentMethod::hashToken($card['token']))->first() ?? new PaymentMethod;
             $method->forceFill([
                 'user_id' => $binding->user_id,
                 'gateway' => $this->gateway()->name(),
